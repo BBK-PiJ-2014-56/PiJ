@@ -1,0 +1,24 @@
+//sort
+System.out.print ("enter a number");
+String str = System.console().readLine();
+int i = Integer.parseInt(str);
+System.out.print ("enter another number");
+String str2 = System.console().readLine();
+int j = Integer.parseInt(str2);
+System.out.print ("enter another number");
+String str3 = System.console().readLine();
+int k = Integer.parseInt(str3);
+int temp;
+if (j<i)
+	{
+	temp = j;
+	j = i;
+	i = temp;
+	}
+if (k<j)
+	{
+	temp = k;
+	k = j;
+	j = temp
+	}
+print (i + j + k);

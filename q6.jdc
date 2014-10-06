@@ -1,0 +1,8 @@
+//divide
+System.out.print ("enter a number");
+String str = System.console().readLine();
+int i = Integer.parseInt(str);
+System.out.print ("enter another number");
+String str2 = System.console().readLine();
+int j = Integer.parseInt(str2);
+print (i + " divided by " + j + " = "+ i/j + " remainder " + i%j);

@@ -1,0 +1,21 @@
+//prime
+System.out.print ("enter a number");
+String str = System.console().readLine();
+int i = Integer.parseInt(str);
+int divisor = 2;
+boolean flag = false;
+while (i>divisor)
+	{
+	if (i%divisor == 0)
+		{
+		print ("not prime");
+		flag = true;
+		break;
+		}
+	divisor++;
+	}
+if (flag == false)
+	{
+	print ("prime");
+	}
+	
