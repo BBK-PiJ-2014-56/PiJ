@@ -1,0 +1,22 @@
+//number pyramid
+System.out.print ("enter a number");
+String str1 = System.console().readLine();
+Double num1 = Double.parseDouble(str1);
+
+System.out.print ("enter another number");
+String str2 = System.console().readLine();
+Double num2 = Double.parseDouble(str2);
+
+int i = 0;
+while (i <= num)
+	{
+	
+	for (int j=0; j<i; j++)
+		{
+		System.out.print (i);
+		}
+	
+	i++;
+	System.out.println ("");
+	}
+System.out.print ("ldots");
