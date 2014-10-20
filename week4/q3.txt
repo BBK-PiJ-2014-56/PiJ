@@ -1,0 +1,19 @@
+//doubles interest
+System.out.println("how much have you borrowed? ");
+String str = System.console().readLine();
+int borrowed = Integer.parseInt(str);
+
+System.out.println("what is the interest rate? ");
+String str1 = System.console().readLine();
+int rate = Integer.parseInt(str1);
+
+int len = str.length();
+System.out.print (str);
+for (int i = 0; i<len; i++)
+	{
+	if (str.charAt(i) == '9' || str.charAt(i) == '8') //'9'|| '8'||'7'||'6'||'5'||'4'||'3'||'2'||'1'||'0') 
+		{
+		
+		}
+	//System.out.print(str.charAt(len-i-1));
+	}
