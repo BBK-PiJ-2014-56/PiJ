@@ -1,2 +1,3 @@
-public class tester
-	public static void main
+public class tester{
+
+}
