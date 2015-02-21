@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$USER_HOME$/SDP/Repo Download/keithmannock-sdp2015-da3113685714/HelloWorldSpringWithAnnotation/src/main/resources/beans.xml</file>
+          <file>file://$USER_HOME$/SDP/Repo Download/keithmannock-sdp2015-da3113685714/HelloWorldSpringWithDIXMLFileConstructorArgument/src/main/resources/beans.xml</file>
+          <file>file://$USER_HOME$/SDP/Repo Download/keithmannock-sdp2015-da3113685714/HelloWorldSpringWithAutoscan/src/main/resources/beans.xml</file>
+          <file>file://$USER_HOME$/SDP/Repo Download/keithmannock-sdp2015-da3113685714/HelloWorldSpringWithAnnotation/target/classes/beans.xml</file>
+          <file>file://$USER_HOME$/SDP/Repo Download/keithmannock-sdp2015-da3113685714/HelloWorldSpringWithDIXMLFile/target/classes/beans.xml</file>
+          <file>file://$USER_HOME$/SDP/Repo Download/keithmannock-sdp2015-da3113685714/HelloWorldSpringWithDIXMLFile/src/main/resources/beans.xml</file>
+          <file>file://$USER_HOME$/SDP/Repo Download/keithmannock-sdp2015-da3113685714/HelloWorldSpringWithDIXMLFileConstructorArgument/target/classes/beans.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+    <facet type="Osmorc" name="OSGi">
+      <configuration manifestGenerationMode="Manually" manifestLocation="Repo Download/keithmannock-sdp2015-da3113685714/osgi_projects/helloworld/mypackage/HelloWorld.mf" jarfileLocation="Week_7.jar" outputPathType="CompilerOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="false" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="false">
+        <additionalProperties />
+        <additionalJARContents />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$USER_HOME$/SDP">
+      <sourceFolder url="file://$USER_HOME$/SDP/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

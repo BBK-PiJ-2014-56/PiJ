@@ -1,3 +1,4 @@
+package contactmanager;
 
 import java.util.Calendar;
 import java.util.List;
@@ -23,7 +24,7 @@ public interface ContactManager {
     * @return the meeting with the requested ID, or null if it there is none.
     * @throws IllegalArgumentException if there is a meeting with that ID happening in the future
     */
-PastMeeting getPastMeeting(int id);
+    PastMeeting getPastMeeting(int id);
     /**
      * Returns the FUTURE meeting with the requested ID, or null if there is none.
      *
@@ -124,7 +125,7 @@ PastMeeting getPastMeeting(int id);
     * @return a list with the contacts whose name contains that string.
     * @throws NullPointerException if the parameter is null
     */
-Set<Contact> getContacts(String name);
+    Set<Contact> getContacts(String name);
     /**
      * Save all data to disk.
      *
