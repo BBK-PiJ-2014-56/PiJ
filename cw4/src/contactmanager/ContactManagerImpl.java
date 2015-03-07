@@ -55,6 +55,7 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public void addNewContact(String name, String notes) {
+        Contact contact = new ContactImpl(getContacts().size()+1, name, notes);
 
     }
 
