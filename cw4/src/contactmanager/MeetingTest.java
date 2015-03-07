@@ -7,9 +7,9 @@ public class MeetingTest {
 
     @Before
     public void setUp() throws Exception {
-        Meeting m = new Meeting(James, 1, 01/06/15);
-        Contact James = new Contact();
-        ContactManager cm = new ContactManager();
+        Meeting m = new MeetingImpl(James, 1, 01/06/15);
+        Contact James = new ContactImpl();
+        ContactManager cm = new ContactManagerImpl();
         cm.addFutureMeeting(James, 01/06/15);
     }
 

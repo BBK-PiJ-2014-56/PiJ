@@ -6,8 +6,8 @@ public class PastMeetingTest {
 
     @Before
     public void setUp() throws Exception {
-        Meeting m = new Meeting(James, 1, 25/02/15);
-        ContactManager cm = new ContactManager();
+        Meeting m = new MeetingImpl(James, 1, 25/02/15);
+        ContactManager cm = new ContactManagerImpl();
         cm.addMeetingNotes(1, "Birthday");
     }
 

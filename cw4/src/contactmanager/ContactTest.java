@@ -10,7 +10,7 @@ public class ContactTest {
 
     @Before
     public void setUp() throws Exception {
-        Contact c = new Contact();
+        Contact c = new ContactImpl();
         c.setName("James");
         c.addNotes("");
         c.setID("1");

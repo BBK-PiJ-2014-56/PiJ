@@ -7,7 +7,7 @@ public class ContactManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        ContactManager cm = new ContactManager();
+        ContactManager cm = new ContactManagerImpl();
 
     }
 
