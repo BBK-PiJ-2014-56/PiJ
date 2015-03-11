@@ -7,18 +7,27 @@ import java.util.Set;
  * Created by jimjohn_thornton on 07/03/15.
  */
 public class MeetingImpl implements Meeting {
+
+    private int id;
+    private Set<Contact> contacts;
+    private Calendar calendar;
+    public MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
+        this.id = id;
+        this.calendar = date;
+        this.contacts = contacts;
+    }
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
 
     @Override
     public Calendar getDate() {
-        return null;
+        return calendar;
     }
 
     @Override
     public Set<Contact> getContacts() {
-        return null;
+        return contacts;
     }
 }

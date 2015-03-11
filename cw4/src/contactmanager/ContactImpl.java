@@ -32,6 +32,6 @@ public class ContactImpl implements Contact {
 
     @Override
     public void addNotes(String note) {
-
+        this.notes = notes + note;
     }
 }
