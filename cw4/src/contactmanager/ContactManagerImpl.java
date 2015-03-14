@@ -8,17 +8,17 @@ import java.util.*;
 public class ContactManagerImpl implements ContactManager{
 
     private Set<Contact> contacts;
-    //private List<Meeting> futureMeetingList;
+    private List<FutureMeeting> futureMeetingList;
     private List<Meeting> meetings;
-    //private List<PastMeeting> pastMeetings;
+    private List<PastMeeting> pastMeetings;
     private Contact newContact;
     private int meetingNo;
 
     public ContactManagerImpl() {
         this.contacts = new HashSet<Contact>();
-        //this.futureMeetingList = new LinkedList<Meeting>();
+        this.futureMeetingList = new LinkedList<FutureMeeting>();
         this.meetings = new LinkedList<Meeting>();
-        //this.pastMeetings = new LinkedList<PastMeeting>();
+        this.pastMeetings = new LinkedList<PastMeeting>();
         this.meetingNo = 0;
     }
 
@@ -32,6 +32,14 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public PastMeeting getPastMeeting(int id) {
+        //List<PastMeeting> allPastMeetings = pastchecker(meetings);
+        Iterator meetingIterator = pastMeetings.iterator();
+        PastMeeting currentMeeting = null;
+        while (meetingIterator.hasNext())
+            currentMeeting = (PastMeeting) meetingIterator.next();
+            if(currentMeeting.getId()==id){
+                return currentMeeting;
+            }
         return null;
     }
 
@@ -43,7 +51,8 @@ public class ContactManagerImpl implements ContactManager{
         while (meetingIterator.hasNext()){
             currentMeeting = (Meeting) meetingIterator.next();
             if (currentMeeting.getId()==id){
-                return (FutureMeeting)currentMeeting;
+
+                //return currentMeeting;
             }
         }
         return null;
@@ -81,12 +90,16 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public List<PastMeeting> getPastMeetingList(Contact contact) {
+
         return null;
     }
 
     @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
-
+        PastMeeting m = new PastMeetingImpl(meetingNo, date, contacts);
+        pastMeetings.add(m);
+        meetingNo++;
+        return meetingNo;
     }
 
     @Override
