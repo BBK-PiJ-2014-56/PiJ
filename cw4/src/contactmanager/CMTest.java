@@ -62,7 +62,7 @@ public class CMTest {
     public void testAddFutureMeeting() {
         //assertEquals(null, cm.getFutureMeetingList(James).size());
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
-        assertEquals(1, cm.getFutureMeetingList(James).size());
+        assertEquals(homeContacts, cm.getFutureMeeting(0).getContacts());
     }
 
     @Test
@@ -79,6 +79,7 @@ public class CMTest {
         cm.addFutureMeeting(pubContacts, futureMeetingDate); // , "");
         cm.addFutureMeeting(homeContacts, futureMeetingDate); //, "hung out");
         cm.addFutureMeeting(skiingContacts, futureMeetingDate); //, "went boarding");
+        //System.out.println("id is "+cm.getFutureMeeting(2).getId());
         assertEquals(skiingContacts, cm.getFutureMeeting(2).getContacts());
     }
 
@@ -87,6 +88,7 @@ public class CMTest {
         cm.addNewPastMeeting(pubContacts, pastMeetingDate, "");
         cm.addFutureMeeting(homeContacts, futureMeetingDate); //, "hung out");
         cm.addFutureMeeting(skiingContacts, futureMeetingDate); //, "went boarding");
+        System.out.println("id is "+cm.getFutureMeeting(2).getId());
         assertEquals(skiingContacts, cm.getMeeting(2).getContacts());
     }
 
@@ -95,7 +97,10 @@ public class CMTest {
         cm.addFutureMeeting(pubContacts, futureMeetingDate);
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
         cm.addFutureMeeting(skiingContacts, futureMeetingDate);
+        System.out.println("id is "+cm.getFutureMeeting(2).getId());
         assertEquals(3, cm.getFutureMeetingList(James).size());
+        //assertEquals(3, cm.getFutureMeetingList(futureMeetingDate).size());
+
     }
 
     @Test

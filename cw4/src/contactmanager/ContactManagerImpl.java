@@ -24,8 +24,8 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-        Meeting m = new MeetingImpl(meetingNo, date, contacts);
-        meetings.add(m);
+        FutureMeeting m = new FutureMeetingImpl(meetingNo, date, contacts);
+        futureMeetingList.add(m);
         meetingNo++;
         return meetingNo;
     }
@@ -45,6 +45,17 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public FutureMeeting getFutureMeeting(int id) {
+        Iterator meetingIterator = futureMeetingList.iterator();
+        FutureMeeting currentMeeting;
+        while (meetingIterator.hasNext()) {
+            currentMeeting = (FutureMeeting) meetingIterator.next();
+            if (currentMeeting.getId() == id) {
+                return currentMeeting;
+            }
+        }
+        return null;
+
+        /*
         List<Meeting> allfutureMeetings = futurechecker(meetings);
         Iterator meetingIterator = allfutureMeetings.iterator();
         Meeting currentMeeting;
@@ -56,6 +67,7 @@ public class ContactManagerImpl implements ContactManager{
             }
         }
         return null;
+        */
     }
 
     @Override
@@ -66,11 +78,13 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
         List<Meeting> futureMeetings = new LinkedList<Meeting>();
-        List<Meeting> allfutureMeetings = futurechecker(meetings);
-        Iterator meetingIterator = allfutureMeetings.iterator();
-        Meeting currentMeeting;
+        //List<Meeting> allfutureMeetings = futurechecker(meetings);
+        //Iterator meetingIterator = allfutureMeetings.iterator();
+        Iterator meetingIterator = futureMeetings.iterator();
+        FutureMeeting currentMeeting;
+        System.out.println("start");
         while(meetingIterator.hasNext()) {
-            currentMeeting = (Meeting) meetingIterator.next();
+            currentMeeting = (FutureMeeting) meetingIterator.next();
             Contact currentContact;
             Iterator contactIterator = currentMeeting.getContacts().iterator();
             while(contactIterator.hasNext()){

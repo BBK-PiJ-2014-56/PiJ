@@ -17,6 +17,7 @@ public class MeetingImpl implements Meeting {
         this.calendar = date;
         this.contacts = contacts;
     }
+
     @Override
     public int getId() {
         return id;
