@@ -60,9 +60,9 @@ public class CMTest {
     }
     @Test
     public void testAddFutureMeeting() {
-        assertEquals(0, cm.getFutureMeetingList(futureMeetingDate).size());
+        //assertEquals(null, cm.getFutureMeetingList(James).size());
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
-        assertEquals(1, cm.getFutureMeetingList(futureMeetingDate).size());
+        assertEquals(1, cm.getFutureMeetingList(James).size());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class CMTest {
         cm.addFutureMeeting(pubContacts, futureMeetingDate);
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
         cm.addFutureMeeting(skiingContacts, futureMeetingDate);
-        assertEquals(3, cm.getFutureMeetingList(futureMeetingDate).size());
+        assertEquals(3, cm.getFutureMeetingList(James).size());
     }
 
     @Test
