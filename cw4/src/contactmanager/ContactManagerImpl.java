@@ -1,8 +1,6 @@
 package contactmanager;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by jimjohn_thornton on 07/03/15.
@@ -11,14 +9,24 @@ public class ContactManagerImpl implements ContactManager{
 
     private Set<Contact> contacts;
     private List<Meeting> futureMeetingList;
-    private Set<Meeting> meetings;
-    private Set<PastMeeting> pastMeetings;
-    private int meetingNo = 0;
+    private List<Meeting> meetings;
+    private List<PastMeeting> pastMeetings;
+    private Contact newContact;
+    private int meetingNo;
+
+    public ContactManagerImpl() {
+        this.contacts = new HashSet<Contact>();
+        this.futureMeetingList = new LinkedList<Meeting>();
+        this.meetings = new LinkedList<Meeting>();
+        this.pastMeetings = new LinkedList<PastMeeting>();
+        this.meetingNo = 0;
+    }
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-        futureMeetingList.add(new MeetingImpl(meetingNo+1, date, contacts));
-        return meetingNo+1;
+        futureMeetingList.add(new MeetingImpl(meetingNo, date, contacts));
+        meetingNo++;
+        return meetingNo;
     }
 
     @Override
@@ -63,8 +71,8 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public void addNewContact(String name, String notes) {
-        Contact contact = new ContactImpl(getContacts().size()+1, name, notes);
-
+        Contact contact = new ContactImpl(contacts.size()+1, name, notes);
+        contacts.add(contact);
     }
 
     @Override
@@ -74,7 +82,17 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public Set<Contact> getContacts(String name) {
-        return null;
+        Set<Contact> subsetOfContacts = new HashSet<Contact>();
+        Iterator i = contacts.iterator();
+        Contact currentContact;
+        while(i.hasNext()) {
+            currentContact = (Contact) i.next();
+            if (currentContact.getName().equals(name)) {
+
+                subsetOfContacts.add(currentContact);
+            }
+        }
+        return subsetOfContacts;
     }
 
     @Override

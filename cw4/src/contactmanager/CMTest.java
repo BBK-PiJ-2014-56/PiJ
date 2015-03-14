@@ -28,7 +28,7 @@ public class CMTest {
     private Set<Contact> pubContacts = new HashSet<Contact>();
     private Set<Contact> homeContacts = new HashSet<Contact>();
     private Set<Contact> skiingContacts = new HashSet<Contact>();
-    private ContactManager cm;
+    private ContactManagerImpl cm;
 
     @Before
     public void setUp() throws Exception {
@@ -36,7 +36,7 @@ public class CMTest {
         James = new ContactImpl(0, "James", "is the first contact");
         Julie = new ContactImpl(1, "Julie", "is the second contact");
         John = new ContactImpl(2, "John", "is the third contact");
-        Jess = new ContactImpl(0, "Jess", "is a cat");
+        Jess = new ContactImpl(3, "Jess", "is a cat");
 
 
         pubContacts.add(James);
@@ -61,7 +61,7 @@ public class CMTest {
     @Test
     public void testAddFutureMeeting() {
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
-        assertEquals(home, cm.getFutureMeeting(3));
+        assertEquals(home, cm.getFutureMeetingList(futureMeetingDate));
     }
 
     @Test
