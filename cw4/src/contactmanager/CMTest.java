@@ -60,44 +60,58 @@ public class CMTest {
     }
     @Test
     public void testAddFutureMeeting() {
+        assertEquals(0, cm.getFutureMeetingList(futureMeetingDate).size());
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
-        assertEquals(home, cm.getFutureMeetingList(futureMeetingDate));
+        assertEquals(1, cm.getFutureMeetingList(futureMeetingDate).size());
     }
 
     @Test
     public void testGetPastMeeting() {
-        assertEquals(pub, cm.getPastMeeting(0));
+        cm.addNewPastMeeting(pubContacts, pastMeetingDate, "");
+        cm.addNewPastMeeting(homeContacts, pastMeetingDate, "hung out");
+        cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "");
+        //cm.addMeetingNotes(1, "hung out");
+        assertEquals("hung out", cm.getPastMeeting(1).getNotes());
     }
 
     @Test
     public void testGetFutureMeeting() {
-        assertEquals(home, cm.getFutureMeeting(2));
+        cm.addFutureMeeting(pubContacts, futureMeetingDate); // , "");
+        cm.addFutureMeeting(homeContacts, futureMeetingDate); //, "hung out");
+        cm.addFutureMeeting(skiingContacts, futureMeetingDate); //, "went boarding");
+        assertEquals(skiingContacts, cm.getFutureMeeting(2).getContacts());
     }
 
     @Test
     public void testGetMeeting() {
-        assertEquals(home, cm.getMeeting(2));
+        cm.addNewPastMeeting(pubContacts, pastMeetingDate, "");
+        cm.addFutureMeeting(homeContacts, futureMeetingDate); //, "hung out");
+        cm.addFutureMeeting(skiingContacts, futureMeetingDate); //, "went boarding");
+        assertEquals(skiingContacts, cm.getMeeting(2).getContacts());
     }
 
     @Test
     public void testGetFutureMeetingList() {
-        List<Meeting> futureMeeting = null;
-        futureMeeting.add(home);
-        assertEquals(futureMeeting, cm.getFutureMeetingList(futureMeetingDate));
+        cm.addFutureMeeting(pubContacts, futureMeetingDate);
+        cm.addFutureMeeting(homeContacts, futureMeetingDate);
+        cm.addFutureMeeting(skiingContacts, futureMeetingDate);
+        assertEquals(3, cm.getFutureMeetingList(futureMeetingDate).size());
     }
 
     @Test
     public void testGetPastMeetingList() {
-        List<Meeting> pastMeeting = null;
-        pastMeeting.add(pub);
-        pastMeeting.add(skiing);
-        assertEquals(pastMeeting, cm.getFutureMeetingList(futureMeetingDate));
+
+        cm.addNewPastMeeting(pubContacts, pastMeetingDate, "");
+        cm.addNewPastMeeting(homeContacts, pastMeetingDate, "hung out");
+        cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "");
+        assertEquals(3, cm.getPastMeetingList(James).size());
+        assertEquals(1, cm.getPastMeetingList(Jess).size());
     }
 
     @Test
     public void testAddNewPastMeeting() {
         cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "a previous holiday");
-        assertEquals("a previous holiday", cm.getPastMeeting(3).getNotes());
+        assertEquals("a previous holiday", cm.getPastMeeting(0).getNotes());
     }
 
     @Test
