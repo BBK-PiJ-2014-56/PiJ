@@ -71,13 +71,24 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public void addNewContact(String name, String notes) {
-        Contact contact = new ContactImpl(contacts.size()+1, name, notes);
+        Contact contact = new ContactImpl(contacts.size(), name, notes);
         contacts.add(contact);
     }
 
     @Override
     public Set<Contact> getContacts(int... ids) {
-        return null;
+        Set<Contact> subsetOfContacts = new HashSet<Contact>();
+        Iterator i = contacts.iterator();
+        Contact currentContact;
+        while(i.hasNext()) {
+            currentContact = (Contact) i.next();
+            for (int id : ids) {
+                if (currentContact.getId() == id) {
+                    subsetOfContacts.add(currentContact);
+                }
+            }
+        }
+        return subsetOfContacts;
     }
 
     @Override
@@ -99,4 +110,18 @@ public class ContactManagerImpl implements ContactManager{
     public void flush() {
 
     }
+    /*
+    private Set<Contact> contactSubsetGenerator() {
+        Set<Contact> subsetOfContacts = new HashSet<Contact>();
+        Iterator i = contacts.iterator();
+        Contact currentContact;
+        while(i.hasNext()) {
+            currentContact = (Contact) i.next();
+            if (currentContact.getName().equals(name)) {
+
+                subsetOfContacts.add(currentContact);
+            }
+        }
+        return subsetOfContacts;
+    }*/
 }

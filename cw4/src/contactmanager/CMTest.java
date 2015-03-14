@@ -126,7 +126,7 @@ public class CMTest {
         cm.addNewContact("James", "");
         cm.addNewContact("James2", "");
         assertEquals(2, cm.getContacts("James").size());
-        assertEquals(3, cm.getContacts(0, 1, 2).size());
+        assertEquals(3, cm.getContacts(0, 2, 3).size());
 
     }
 
