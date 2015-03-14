@@ -37,6 +37,15 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public FutureMeeting getFutureMeeting(int id) {
+        List<Meeting> allfutureMeetings = futurechecker(meetings);
+        Iterator meetingIterator = allfutureMeetings.iterator();
+        Meeting currentMeeting;
+        while (meetingIterator.hasNext()){
+            currentMeeting = (Meeting) meetingIterator.next();
+            if (currentMeeting.getId()==id){
+                return (FutureMeeting)currentMeeting;
+            }
+        }
         return null;
     }
 
