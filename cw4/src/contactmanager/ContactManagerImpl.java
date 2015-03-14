@@ -8,9 +8,17 @@ import java.util.Set;
  * Created by jimjohn_thornton on 07/03/15.
  */
 public class ContactManagerImpl implements ContactManager{
+
+    private Set<Contact> contacts;
+    private List<Meeting> futureMeetingList;
+    private Set<Meeting> meetings;
+    private Set<PastMeeting> pastMeetings;
+    private int meetingNo = 0;
+
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-        return 0;
+        futureMeetingList.add(new MeetingImpl(meetingNo+1, date, contacts));
+        return meetingNo+1;
     }
 
     @Override

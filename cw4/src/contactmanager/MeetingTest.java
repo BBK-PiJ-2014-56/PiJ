@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MeetingTest {
     private Meeting m;
-    private ContactImpl James;
+    private Contact James;
     private Set<Contact> contacts = new HashSet<Contact>();
     private Calendar meetingDate = new GregorianCalendar(2015, 6, 1);
 

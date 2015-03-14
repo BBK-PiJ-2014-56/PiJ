@@ -11,6 +11,7 @@ public class MeetingImpl implements Meeting {
     private int id;
     private Set<Contact> contacts;
     private Calendar calendar;
+
     public MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
         this.id = id;
         this.calendar = date;
