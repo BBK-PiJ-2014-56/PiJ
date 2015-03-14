@@ -16,18 +16,21 @@ public class PastMeetingTest {
     private ContactManager cm;
     private Contact James;
     private Set<Contact> contacts = new HashSet<Contact>();
+    private Calendar meetingDate;
 
     @Before
     public void setUp() throws Exception {
         James = new ContactImpl(1, "James", "Is getting old");
-        Calendar meetingDate = new GregorianCalendar(2015, 2, 25);
-        m = new PastMeetingImpl(1, meetingDate, contacts);
+        contacts.add(James);
+        meetingDate = new GregorianCalendar(2015, 2, 25);
+        //m = new PastMeetingImpl(1, meetingDate, contacts, "");
         cm = new ContactManagerImpl();
-        cm.addMeetingNotes(1, "Birthday");
+        cm.addNewPastMeeting(contacts, meetingDate, "");
+        cm.addMeetingNotes(0, "Birthday");
     }
 
     @Test
     public void testGetNotes() throws Exception {
-        assertEquals("Birthday", cm.getPastMeeting(1).getNotes());
+        assertEquals("Birthday", cm.getPastMeeting(0).getNotes());
     }
 }

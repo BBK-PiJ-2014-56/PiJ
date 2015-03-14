@@ -34,12 +34,16 @@ public class ContactManagerImpl implements ContactManager{
     public PastMeeting getPastMeeting(int id) {
         //List<PastMeeting> allPastMeetings = pastchecker(meetings);
         Iterator meetingIterator = pastMeetings.iterator();
-        PastMeeting currentMeeting = null;
-        while (meetingIterator.hasNext())
+        PastMeeting currentMeeting;// = new PastMeetingImpl(-1, null, null, "");
+        System.out.println("Start");
+        while (meetingIterator.hasNext()) {
+            System.out.println("Iterating");
             currentMeeting = (PastMeeting) meetingIterator.next();
-            if(currentMeeting.getId()==id){
+            if (currentMeeting.getId() == id) {
+                System.out.println(currentMeeting.getId());
                 return currentMeeting;
             }
+        }
         return null;
     }
 
@@ -96,15 +100,15 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
-        PastMeeting m = new PastMeetingImpl(meetingNo, date, contacts);
+        PastMeeting m = new PastMeetingImpl(meetingNo, date, contacts, text);
         pastMeetings.add(m);
         meetingNo++;
-        return meetingNo;
+
     }
 
     @Override
     public void addMeetingNotes(int id, String text) {
-
+        getPastMeeting(id);
     }
 
     @Override
