@@ -18,7 +18,6 @@ public class PastMeetingImpl implements PastMeeting {
         this.contacts = contacts;
         this.calendar = calendar;
         this.notes = notes;
-        //System.out.println("pastMeetingadder");
     }
 
     @Override
@@ -39,5 +38,9 @@ public class PastMeetingImpl implements PastMeeting {
     @Override
     public Set<Contact> getContacts() {
         return contacts;
+    }
+
+    public void addNotes(String note){
+        notes = notes + note;
     }
 }

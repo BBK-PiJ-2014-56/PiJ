@@ -32,15 +32,11 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public PastMeeting getPastMeeting(int id) {
-        //List<PastMeeting> allPastMeetings = pastchecker(meetings);
         Iterator meetingIterator = pastMeetings.iterator();
-        PastMeeting currentMeeting;// = new PastMeetingImpl(-1, null, null, "");
-        System.out.println("Start");
+        PastMeeting currentMeeting;
         while (meetingIterator.hasNext()) {
-            System.out.println("Iterating");
             currentMeeting = (PastMeeting) meetingIterator.next();
             if (currentMeeting.getId() == id) {
-                System.out.println(currentMeeting.getId());
                 return currentMeeting;
             }
         }
@@ -108,7 +104,9 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public void addMeetingNotes(int id, String text) {
-        getPastMeeting(id);
+        getPastMeeting(id).addNotes(text);
+        //PastMeeting pm = new PastMeetingImpl(id, getPastMeeting(id).getDate(), getPastMeeting(id).getContacts(), text);
+
     }
 
     @Override
