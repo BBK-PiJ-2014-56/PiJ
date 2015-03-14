@@ -110,14 +110,24 @@ public class CMTest {
 
     @Test
     public void testAddNewContact() {
+        assertEquals(0, cm.getContacts("Pauline").size());
         cm.addNewContact("Pauline", "");
-        Contact Pauline = new ContactImpl(3, "Pauline", "");
-        assertEquals(Pauline.getName() , cm.getContacts("Pauline"));
+        assertEquals(1, cm.getContacts("Pauline").size());
+        //Contact Pauline = new ContactImpl(1, "Pauline", "");
+        //assertEquals(Pauline.getName() , cm.getContacts("Pauline"));
     }
 
     @Test
     public void testGetContacts() {
-        assertEquals(James, cm.getContacts("James"));
+        cm.addNewContact("James", "");
+        cm.addNewContact("Julie", "");
+        cm.addNewContact("John", "");
+        cm.addNewContact("Jess", "");
+        cm.addNewContact("James", "");
+        cm.addNewContact("James2", "");
+        assertEquals(2, cm.getContacts("James").size());
+        assertEquals(3, cm.getContacts(0, 1, 2).size());
+
     }
 
     @Test
