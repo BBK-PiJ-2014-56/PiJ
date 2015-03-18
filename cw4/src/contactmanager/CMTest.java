@@ -155,6 +155,25 @@ public class CMTest {
     }
 
     @Test
+    public void testListSorter() {
+        Calendar futureMeetingDate2 = new GregorianCalendar(2015, 6, 2);
+        Calendar pastMeetingDate2 = new GregorianCalendar(2015, 2, 2);
+        cm.addFutureMeeting(skiingContacts, futureMeetingDate);
+        cm.addNewPastMeeting(homeContacts, pastMeetingDate, "meetingdate1");
+        cm.addNewPastMeeting(pubContacts, pastMeetingDate2, "meetingdate2");
+        cm.addFutureMeeting(pubContacts, futureMeetingDate2);
+        cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "meetingdate1");
+
+        cm.listSorter();
+        assertEquals("meetingdate1", cm.getPastMeetingList(James).get(0).getNotes());
+        assertEquals("meetingdate1", cm.getPastMeetingList(James).get(1).getNotes());
+        assertEquals("meetingdate2", cm.getPastMeetingList(James).get(2).getNotes());
+
+        assertEquals(skiingContacts, cm.getFutureMeetingList(James).get(0).getContacts());
+        assertEquals(pubContacts, cm.getPastMeetingList(James).get(1).getContacts());
+    }
+
+    @Test
     public void testFlush() {
 
     }

@@ -24,8 +24,8 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-        FutureMeeting fm = new FutureMeetingImpl(meetingNo, date, contacts);
-        futureMeetingList.add(fm);
+        Meeting fm = new MeetingImpl(meetingNo, date, contacts);
+        meetings.add(fm);
         meetingNo++;
         System.out.println(futureMeetingList.get(0));
         return meetingNo;
@@ -188,6 +188,14 @@ public class ContactManagerImpl implements ContactManager{
             }
         }
         return futureMeetings;
+    }
+
+    public void listSorter () {
+
+    }
+
+    private void add() {
+
     }
 
     /*
