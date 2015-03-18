@@ -8,7 +8,7 @@ import java.util.*;
 public class ContactManagerImpl implements ContactManager{
 
     private Set<Contact> contacts;
-    private List<FutureMeeting> futureMeetingList;
+    public List<FutureMeeting> futureMeetingList;
     private List<Meeting> meetings;
     private List<PastMeeting> pastMeetings;
     private Contact newContact;
@@ -24,9 +24,10 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-        FutureMeeting m = new FutureMeetingImpl(meetingNo, date, contacts);
-        futureMeetingList.add(m);
+        FutureMeeting fm = new FutureMeetingImpl(meetingNo, date, contacts);
+        futureMeetingList.add(fm);
         meetingNo++;
+        System.out.println(futureMeetingList.get(0));
         return meetingNo;
     }
 
@@ -77,7 +78,7 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
-        List<Meeting> futureMeetings = new LinkedList<Meeting>();
+        List<Meeting> futureMeetings = new LinkedList<>();
         //List<Meeting> allfutureMeetings = futurechecker(meetings);
         //Iterator meetingIterator = allfutureMeetings.iterator();
         Iterator meetingIterator = futureMeetings.iterator();
