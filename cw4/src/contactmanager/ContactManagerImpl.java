@@ -2,6 +2,7 @@ package contactmanager;
 
 import java.util.*;
 
+
 /**
  * Created by jimjohn_thornton on 07/03/15.
  */
@@ -27,7 +28,7 @@ public class ContactManagerImpl implements ContactManager{
         Meeting fm = new MeetingImpl(meetingNo, date, contacts);
         meetings.add(fm);
         meetingNo++;
-        System.out.println(futureMeetingList.get(0));
+        System.out.println(meetings.get(0));
         return meetingNo;
     }
 
@@ -192,6 +193,33 @@ public class ContactManagerImpl implements ContactManager{
 
     public void listSorter () {
 
+        Collections.sort(meetings, new Comparator<Meeting>() {
+            public int compare(Meeting m1, Meeting m2) {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        });
+        /*
+        Collections.sort(meetings.) {
+            public int compare(MyObject o1, MyObject o2) {
+                DateTime a = o1.getDateTime();
+                DateTime b = o2.getDateTime();
+                if (a.lt(b))
+                    return -1;
+                else if (a.lteq(b)) // it's equals
+                    return 0;
+                else
+                    return 1;
+            }
+        });
+        Iterator meetingIterator = meetings.iterator();
+        Meeting currentMeeting;
+        while (meetingIterator.hasNext()){
+            currentMeeting = (Meeting) meetingIterator.next();
+
+        }
+        for (int i = 0; i < meetings.size(); i++)
+            if (meetings.get(i).getDate().compareTo(meetings.get(i+1).getDate()));
+*/
     }
 
     private void add() {
