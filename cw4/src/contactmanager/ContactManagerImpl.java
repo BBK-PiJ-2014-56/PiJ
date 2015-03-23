@@ -2,24 +2,18 @@ package contactmanager;
 
 import java.util.*;
 
-
 /**
  * Created by jimjohn_thornton on 07/03/15.
  */
-public class ContactManagerImpl implements ContactManager{
+public class ContactManagerImpl implements ContactManager {
 
     private Set<Contact> contacts;
-    public List<FutureMeeting> futureMeetingList;
     private List<Meeting> meetings;
-    private List<PastMeeting> pastMeetings;
-    private Contact newContact;
     private int meetingNo;
 
     public ContactManagerImpl() {
         this.contacts = new HashSet<Contact>();
-        this.futureMeetingList = new LinkedList<FutureMeeting>();
         this.meetings = new LinkedList<Meeting>();
-        this.pastMeetings = new LinkedList<PastMeeting>();
         this.meetingNo = 0;
     }
 
@@ -34,10 +28,10 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public PastMeeting getPastMeeting(int id) {
-        Iterator meetingIterator = pastMeetings.iterator();
+        Iterator meetingIterator = meetings.iterator();
         PastMeeting currentMeeting;
         while (meetingIterator.hasNext()) {
-            currentMeeting = (PastMeeting) meetingIterator.next();
+            currentMeeting = (PastMeetingImpl) meetingIterator.next();
             if (currentMeeting.getId() == id) {
                 return currentMeeting;
             }
@@ -47,15 +41,25 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public FutureMeeting getFutureMeeting(int id) {
-        Iterator meetingIterator = futureMeetingList.iterator();
-        FutureMeeting currentMeeting;
-        while (meetingIterator.hasNext()) {
-            currentMeeting = (FutureMeeting) meetingIterator.next();
-            if (currentMeeting.getId() == id) {
-                return currentMeeting;
+        FutureMeeting m = new FutureMeetingImpl(id, getMeeting(id).getDate(), getMeeting(id).getContacts());
+        if (Calendar.getInstance().compareTo(m.getDate())<=0)
+            try{
+                return m;
+            }catch (ClassCastException ex){
+                return null;
             }
-        }
         return null;
+
+
+//        Iterator meetingIterator = meetings.iterator();
+//        FutureMeeting currentMeeting;
+//        while (meetingIterator.hasNext()) {
+//            currentMeeting = (FutureMeeting) meetingIterator.next();
+//            currentMeeting.getClass();
+//            if (currentMeeting.getId() == id) {
+//                return currentMeeting;
+//            }
+//        }
 
         /*
         List<Meeting> allfutureMeetings = futurechecker(meetings);
@@ -74,25 +78,32 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public Meeting getMeeting(int id) {
-        return null;
+        return meetings.get(id);
     }
 
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
+        listSorter();
         List<Meeting> futureMeetings = new LinkedList<>();
         //List<Meeting> allfutureMeetings = futurechecker(meetings);
         //Iterator meetingIterator = allfutureMeetings.iterator();
-        Iterator meetingIterator = futureMeetings.iterator();
-        FutureMeeting currentMeeting;
+        Iterator meetingIterator = meetings.iterator();
+        Meeting currentMeeting;
         System.out.println("start");
         while(meetingIterator.hasNext()) {
-            currentMeeting = (FutureMeeting) meetingIterator.next();
-            Contact currentContact;
-            Iterator contactIterator = currentMeeting.getContacts().iterator();
-            while(contactIterator.hasNext()){
-                currentContact = (Contact) contactIterator.next();
-                if (currentContact.getName().equals(contact.getName())) {
-                    futureMeetings.add(currentMeeting);
+            currentMeeting = (Meeting) meetingIterator.next();
+
+            //date is today or in the future
+            if ((currentMeeting.getDate().compareTo(Calendar.getInstance())>=0)) {
+                System.out.println(currentMeeting.getDate());
+                //currentMeeting = (FutureMeeting) meetingIterator.next();
+                Contact currentContact;
+                Iterator contactIterator = currentMeeting.getContacts().iterator();
+                while (contactIterator.hasNext()) {
+                    currentContact = (Contact) contactIterator.next();
+                    if (currentContact.getName().equals(contact.getName())) {
+                        futureMeetings.add(currentMeeting);
+                    }
                 }
             }
         }
@@ -101,19 +112,48 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
-        return null;
+        List<Meeting> futureMeetings = new LinkedList<>();
+        //List<Meeting> allfutureMeetings = futurechecker(meetings);
+        //Iterator meetingIterator = allfutureMeetings.iterator();
+        Iterator meetingIterator = meetings.iterator();
+        Meeting currentMeeting;
+        System.out.println("start of futureMeeting by date");
+        listSorter();
+        while(meetingIterator.hasNext()) {
+            currentMeeting = (Meeting) meetingIterator.next();
+            if (currentMeeting.getDate().equals(date)) {
+                futureMeetings.add(currentMeeting);
+            }
+        }
+        return futureMeetings;
     }
 
     @Override
     public List<PastMeeting> getPastMeetingList(Contact contact) {
-
-        return null;
+        List<PastMeeting> pastMeetings = new LinkedList<>();
+        //List<Meeting> allfutureMeetings = futurechecker(meetings);
+        //Iterator meetingIterator = allfutureMeetings.iterator();
+        Iterator meetingIterator = meetings.iterator();
+        PastMeeting currentMeeting;
+        System.out.println("startPast");
+        while(meetingIterator.hasNext()) {
+            currentMeeting = (PastMeeting) meetingIterator.next();
+            Contact currentContact;
+            Iterator contactIterator = currentMeeting.getContacts().iterator();
+            while(contactIterator.hasNext()){
+                currentContact = (Contact) contactIterator.next();
+                if (currentContact.getName().equals(contact.getName())) {
+                    pastMeetings.add(currentMeeting);
+                }
+            }
+        }
+        return pastMeetings;
     }
 
     @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
-        PastMeeting m = new PastMeetingImpl(meetingNo, date, contacts, text);
-        pastMeetings.add(m);
+        Meeting m = new PastMeetingImpl(meetingNo, date, contacts, text);
+        meetings.add(m);
         meetingNo++;
 
     }
@@ -166,6 +206,7 @@ public class ContactManagerImpl implements ContactManager{
     public void flush() {
 
     }
+    /*
     private List<Meeting> pastchecker(List<Meeting> meetings) {
         List<Meeting> pastMeetings = new LinkedList<Meeting>();
         Iterator meetingIterator = meetings.iterator();
@@ -190,8 +231,13 @@ public class ContactManagerImpl implements ContactManager{
         }
         return futureMeetings;
     }
+*/
+    public List<Meeting> listSorter () {
+        for (Meeting meeting : meetings) {
+            System.out.println(meeting.getId());
+        }
 
-    public void listSorter () {
+        //List<Meeting> sortedMeetings = new LinkedList<>();
 
         Collections.sort(meetings, new Comparator<Meeting>() {
             public int compare(Meeting m1, Meeting m2) {
@@ -217,13 +263,42 @@ public class ContactManagerImpl implements ContactManager{
             currentMeeting = (Meeting) meetingIterator.next();
 
         }
-        for (int i = 0; i < meetings.size(); i++)
-            if (meetings.get(i).getDate().compareTo(meetings.get(i+1).getDate()));
-*/
+        */
+    //}
+        List<Meeting> sortedPastMeetings = new LinkedList<>();
+        List<Meeting> sortedFutureMeetings = new LinkedList<>();
+        for (Meeting meeting : meetings) {
+            System.out.println(meeting.getId());
+            //System.out.println(meetings.get(i).getDate().compareTo(Calendar.getInstance()));
+            //if date is in the past
+            if (meeting.getDate().compareTo(Calendar.getInstance()) < 0) {
+                sortedPastMeetings.add(meetingNowInPast(meeting));
+                //PastMeeting pm = new PastMeetingImpl(meetings.get(i).getId(), meetings.get(i).getDate(), meetings.get(i).getContacts(), "");
+
+            } else {
+                //sortedFutureMeetings.add(meetingInTheFuture(meetings.get(i)));
+                FutureMeeting fm = new FutureMeetingImpl(meeting.getId(), meeting.getDate(), meeting.getContacts());
+                sortedFutureMeetings.add(fm);
+                //futureMeetingList.add((FutureMeeting)meetings.get(i));
+            }
+        }
+        for (Meeting sortedFutureMeeting : sortedFutureMeetings) {
+            sortedPastMeetings.add(sortedFutureMeeting);
+        }
+        //meetings = sortedPastMeetings;
+        return sortedPastMeetings;
     }
-
-    private void add() {
-
+    public PastMeeting meetingNowInPast(Meeting m) {
+        return new PastMeetingImpl(m.getId(), m.getDate(), m.getContacts(), "");
+    }
+    /*
+    public FutureMeeting meetingInTheFuture(Meeting m) {
+        FutureMeeting fm = new FutureMeetingImpl(m.getId(), m.getDate(), m.getContacts());
+        return fm;
+    }
+    */
+    public List<Meeting> getMeetingList() {
+        return meetings;
     }
 
     /*

@@ -60,18 +60,20 @@ public class CMTest {
     }
     @Test
     public void testAddFutureMeeting() {
-        //assertEquals(null, cm.getFutureMeetingList(James).size());
+        //assertEquals(null, cm.getFutureMeetingList(James));
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
-        assertEquals(homeContacts, cm.getFutureMeeting(0).getContacts());
+        assertEquals(homeContacts, cm.getMeeting(0).getContacts());
     }
 
     @Test
     public void testGetPastMeeting() {
-        cm.addNewPastMeeting(pubContacts, pastMeetingDate, "");
+        cm.addNewPastMeeting(pubContacts, pastMeetingDate, "food");
         cm.addNewPastMeeting(homeContacts, pastMeetingDate, "hung out");
-        cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "");
+        cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "Morzine");
         //cm.addMeetingNotes(1, "hung out");
+        assertEquals("food", cm.getPastMeeting(0).getNotes());
         assertEquals("hung out", cm.getPastMeeting(1).getNotes());
+        assertEquals("Morzine", cm.getPastMeeting(2).getNotes());
     }
 
     @Test
@@ -89,21 +91,33 @@ public class CMTest {
         cm.addFutureMeeting(homeContacts, futureMeetingDate); //, "hung out");
         cm.addFutureMeeting(skiingContacts, futureMeetingDate); //, "went boarding");
         //System.out.println("id is "+cm.getFutureMeeting(2).getId());
+        assertEquals(pubContacts, cm.getMeeting(0).getContacts());
+        assertEquals(homeContacts, cm.getMeeting(1).getContacts());
         assertEquals(skiingContacts, cm.getMeeting(2).getContacts());
     }
 
     @Test
     public void testGetFutureMeetingList() {
         System.out.println("Start");
+        cm.addNewPastMeeting(pubContacts, pastMeetingDate, "happened in the past");
         cm.addFutureMeeting(pubContacts, futureMeetingDate);
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
         cm.addFutureMeeting(skiingContacts, futureMeetingDate);
         System.out.println("id is "+cm.getFutureMeeting(2).getId());
-        System.out.println(cm.futureMeetingList.get(0).getId());
-        System.out.println(cm.futureMeetingList.get(1).getId());
-        System.out.println(cm.futureMeetingList.get(2).getId());
-        //System.out.println(cm.getFutureMeetingList(James).get(0).getId());
         assertEquals(3, cm.getFutureMeetingList(James).size());
+        assertEquals(3, cm.getFutureMeetingList(futureMeetingDate).size());
+
+        Calendar futureMeetingDate2 = new GregorianCalendar(2015, 6, 2);
+        Calendar pastMeetingDate2 = new GregorianCalendar(2015, 2, 2);
+        cm.addFutureMeeting(pubContacts, futureMeetingDate2);
+        cm.addFutureMeeting(skiingContacts, futureMeetingDate);
+        cm.addNewPastMeeting(homeContacts, pastMeetingDate, "meetingdate1");
+        cm.addNewPastMeeting(pubContacts, pastMeetingDate2, "meetingdate2");
+        cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "meetingdate1");
+
+        assertEquals(futureMeetingDate, cm.getFutureMeetingList(James).get(0).getDate());
+        assertEquals(futureMeetingDate, cm.getFutureMeetingList(James).get(3).getDate());
+        assertEquals(futureMeetingDate2, cm.getFutureMeetingList(James).get(4).getDate());
         //assertEquals(3, cm.getFutureMeetingList(futureMeetingDate).size());
 
     }
@@ -151,6 +165,9 @@ public class CMTest {
         cm.addNewContact("James2", "");
         assertEquals(2, cm.getContacts("James").size());
         assertEquals(3, cm.getContacts(0, 2, 3).size());
+//        for(int i;i in .. cm.getContacts(0, 1, 2, 3)){
+//            System.out.println(cm.getContacts(i).iterator().next().getName());
+//        }
 
     }
 
@@ -165,12 +182,18 @@ public class CMTest {
         cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "meetingdate1");
 
         cm.listSorter();
-        assertEquals("meetingdate1", cm.getPastMeetingList(James).get(0).getNotes());
-        assertEquals("meetingdate1", cm.getPastMeetingList(James).get(1).getNotes());
-        assertEquals("meetingdate2", cm.getPastMeetingList(James).get(2).getNotes());
+        assertEquals(pastMeetingDate, cm.getMeetingList().get(0).getDate());
+        assertEquals(pastMeetingDate, cm.getMeetingList().get(1).getDate());
+        assertEquals(pastMeetingDate2, cm.getMeetingList().get(2).getDate());
+        assertEquals(futureMeetingDate, cm.getMeetingList().get(3).getDate());
+        assertEquals(futureMeetingDate2, cm.getMeetingList().get(4).getDate());
 
-        assertEquals(skiingContacts, cm.getFutureMeetingList(James).get(0).getContacts());
-        assertEquals(pubContacts, cm.getPastMeetingList(James).get(1).getContacts());
+//        assertEquals(pastMeetingDate, cm.getPastMeeting(0).getDate());
+//        assertEquals(pastMeetingDate, cm.getPastMeeting(1).getDate());
+//        assertEquals(pastMeetingDate2, cm.getPastMeeting(2).getDate());
+//        assertEquals(futureMeetingDate, cm.getFutureMeeting(3).getDate());
+//        assertEquals(futureMeetingDate2, cm.getFutureMeeting(4).getDate());
+
     }
 
     @Test
