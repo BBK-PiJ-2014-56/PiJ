@@ -41,6 +41,6 @@ public class PastMeetingImpl implements PastMeeting {
     }
 
     public void addNotes(String note){
-        notes = notes + note;
+        this.notes = notes + note;
     }
 }

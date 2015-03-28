@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,22 +26,18 @@ public class DataIO {
             readFile();
         }
         Path path = Paths.get("contacts.txt");
-        ReadWithScanner parser = new ReadWithScanner("C:\\Temp\\test.txt");
-        parser.processLineByLine();
-        log("Done.");
+//        ReadWithScanner parser = new ReadWithScanner("C:\\Temp\\test.txt");
+//        parser.processLineByLine();
+//        log("Done.");
     }
 
     private void readFile() {
-        Scanner fileReader = null;
-        try {
-            fileReader = new Scanner(contactsFile);
-                while (fileReader.hasNextLine()) {
-                    //Readline
-                }
+        try (Scanner fileReader = new Scanner(contactsFile)) {
+            while (fileReader.hasNextLine()) {
+                //Readline
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            fileReader.close();
         }
 
     }
@@ -50,19 +47,19 @@ public class DataIO {
      Constructor.
      @param aFileName full name of an existing, readable file.
      */
-    public ReadWithScanner(String aFileName){
-        fFilePath = Paths.get(aFileName);
-    }
-
-
-    /** Template method that calls {@link #processLine(String)}.  */
-    public final void processLineByLine() throws IOException {
-        try (Scanner scanner =  new Scanner(fFilePath, ENCODING.name())){
-            while (scanner.hasNextLine()){
-                processLine(scanner.nextLine());
-            }
-        }
-    }
+//    public ReadWithScanner(String aFileName){
+//        fFilePath = Paths.get(aFileName);
+//    }
+//
+//
+//    /** Template method that calls {@link #processLine(String)}.  */
+//    public final void processLineByLine() throws IOException {
+//        try (Scanner scanner =  new Scanner(fFilePath, ENCODING.name())){
+//            while (scanner.hasNextLine()){
+//                processLine(scanner.nextLine());
+//            }
+//        }
+//    }
 
     /**
      Overridable method for processing lines in different ways.
@@ -89,16 +86,19 @@ public class DataIO {
         }
     }
 
-    public void writeFile(List<String> contactData, List<String> meetingData) {
+    public void writeFile(List<Contact> contactData, List<Meeting> meetingData) {
         Path path = Paths.get("contacts.txt");
         try (Scanner scanner = new Scanner(path, String.valueOf(ENCODING))){
             try (BufferedWriter writer = Files.newBufferedWriter(path, ENCODING)){
-                for(String line : contactData){
-                    writer.write(line);
+                for(Contact c : contactData){
+                    writer.write(c.getId() + "," + c.getName() + "," + c.getNotes());
                     writer.newLine();
                 }
-                for(String line : meetingData){
-                    writer.write(line);
+                for(Meeting m : meetingData){
+                    writer.write(m.getId() + "," + m.getContacts() + "," + m.getDate());
+                        //if date is in the past get notes
+                        if ((Calendar.getInstance().compareTo(m.getDate())<0))
+                            //writer.write(m.getNotes);
                     writer.newLine();
                 }
             }

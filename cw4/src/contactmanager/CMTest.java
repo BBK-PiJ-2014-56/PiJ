@@ -22,12 +22,12 @@ public class CMTest {
     private Contact John;
     private Contact Jess;
 
-    private Set<Contact> contacts = new HashSet<Contact>();
+    private Set<Contact> contacts = new HashSet<>();
     private Calendar futureMeetingDate = new GregorianCalendar(2015, 6, 1);
     private Calendar pastMeetingDate = new GregorianCalendar(2015, 2, 1);
-    private Set<Contact> pubContacts = new HashSet<Contact>();
-    private Set<Contact> homeContacts = new HashSet<Contact>();
-    private Set<Contact> skiingContacts = new HashSet<Contact>();
+    private Set<Contact> pubContacts = new HashSet<>();
+    private Set<Contact> homeContacts = new HashSet<>();
+    private Set<Contact> skiingContacts = new HashSet<>();
     private ContactManagerImpl cm;
 
     @Before
@@ -198,6 +198,19 @@ public class CMTest {
 
     @Test
     public void testFlush() {
+        DataIO testdata = new DataIO();
 
+        List<Contact> contacts = new LinkedList<>();
+        contacts.add(James);
+        contacts.add(Jess);
+        contacts.add(John);
+        contacts.add(Julie);
+
+        List<Meeting> meetings = new LinkedList<>();
+        meetings.add(pub);
+        meetings.add(home);
+        meetings.add(skiing);
+
+        testdata.writeFile(contacts, meetings);
     }
 }

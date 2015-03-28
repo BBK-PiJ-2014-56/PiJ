@@ -12,8 +12,8 @@ public class ContactManagerImpl implements ContactManager {
     private int meetingNo;
 
     public ContactManagerImpl() {
-        this.contacts = new HashSet<Contact>();
-        this.meetings = new LinkedList<Meeting>();
+        this.contacts = new HashSet<>();
+        this.meetings = new LinkedList<>();
         this.meetingNo = 0;
     }
 
@@ -173,7 +173,7 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public Set<Contact> getContacts(int... ids) {
-        Set<Contact> subsetOfContacts = new HashSet<Contact>();
+        Set<Contact> subsetOfContacts = new HashSet<>();
         Iterator i = contacts.iterator();
         Contact currentContact;
         while(i.hasNext()) {
@@ -189,7 +189,7 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public Set<Contact> getContacts(String name) {
-        Set<Contact> subsetOfContacts = new HashSet<Contact>();
+        Set<Contact> subsetOfContacts = new HashSet<>();
         Iterator i = contacts.iterator();
         Contact currentContact;
         while(i.hasNext()) {
@@ -205,7 +205,7 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public void flush() {
         DataIO writer = new DataIO();
-        writer.writeFile(contacts, meetings);
+        //writer.writeFile(contacts, meetings);
     }
     /*
     private List<Meeting> pastchecker(List<Meeting> meetings) {
@@ -240,11 +240,7 @@ public class ContactManagerImpl implements ContactManager {
 
         //List<Meeting> sortedMeetings = new LinkedList<>();
 
-        Collections.sort(meetings, new Comparator<Meeting>() {
-            public int compare(Meeting m1, Meeting m2) {
-                return m1.getDate().compareTo(m2.getDate());
-            }
-        });
+        Collections.sort(meetings, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
         /*
         Collections.sort(meetings.) {
             public int compare(MyObject o1, MyObject o2) {
