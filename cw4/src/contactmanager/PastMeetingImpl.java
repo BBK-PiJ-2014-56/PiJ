@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Set;
 
 /**
- * Created by jimjohn_thornton on 07/03/15.
+ * @author James Thornton
  */
 public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 

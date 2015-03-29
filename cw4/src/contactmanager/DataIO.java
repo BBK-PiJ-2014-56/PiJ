@@ -143,11 +143,20 @@ public class DataIO {
                     for(Contact c : m.getContacts()){
                         meetingContactsByID = meetingContactsByID + "," + c.getId();
                     }
-                    writer.write("MeetingID: " + m.getId() + ", meetingContactIDs" + meetingContactsByID + "," + simpleDate.format(m.getDate().getTime()) + " ");
-                    writer.newLine();
+                    if (m instanceof FutureMeeting) {
+                        writer.write("MeetingID: " + m.getId() + ", meetingContactIDs" + meetingContactsByID  + ", " + simpleDate.format(m.getDate().getTime()) + System.getProperty("line.separator"));
+                    }
+                    // If meeting is a Past Meeting write with notes
+                    else if (m instanceof PastMeeting) {
+                        writer.write("MeetingID: " + m.getId() + ", meetingContactIDs" + meetingContactsByID  + ", " + simpleDate.format(m.getDate().getTime()) + ", " + ((PastMeeting) m).getNotes() + System.getProperty("line.separator"));
+                    }
+
+
                         //if date is in the past get notes
-                        if ((Calendar.getInstance().compareTo(m.getDate())>0))
-                            writer.write(((PastMeeting) m).getNotes());
+//                        if ((Calendar.getInstance().compareTo(m.getDate())>0)) {
+//                            PastMeeting pm = new PastMeeting ;
+//                            writer.write((pm).getNotes());
+//                        }
                             //writer.newLine();
                             //writer.write(m.getNotes);
                     //writer.newLine();

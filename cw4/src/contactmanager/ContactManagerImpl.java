@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by jimjohn_thornton on 07/03/15.
+ * @author James Thornton
  */
 public class ContactManagerImpl implements ContactManager {
 
@@ -205,6 +205,7 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public void flush() throws IOException {
+        listSorter();
         DataIO writer = new DataIO();
         writer.writeFile(contacts, meetings);
     }
@@ -234,6 +235,11 @@ public class ContactManagerImpl implements ContactManager {
         return futureMeetings;
     }
 */
+
+    /**
+     * Sorts meetings into order by date
+     * @return returns a list of meetings sorted by date
+     */
     public List<Meeting> listSorter () {
         for (Meeting meeting : meetings) {
             //System.out.println(meeting.getId());
