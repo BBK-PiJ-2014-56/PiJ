@@ -151,7 +151,6 @@ public class DataIO {
                         writer.write("MeetingID: " + m.getId() + ", meetingContactIDs" + meetingContactsByID  + ", " + simpleDate.format(m.getDate().getTime()) + ", " + ((PastMeeting) m).getNotes() + System.getProperty("line.separator"));
                     }
 
-
                         //if date is in the past get notes
 //                        if ((Calendar.getInstance().compareTo(m.getDate())>0)) {
 //                            PastMeeting pm = new PastMeeting ;
