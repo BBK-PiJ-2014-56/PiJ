@@ -134,22 +134,24 @@ public class DataIO {
         try (Scanner scanner = new Scanner(path, String.valueOf(ENCODING))){
             try (BufferedWriter writer = Files.newBufferedWriter(path, ENCODING)){
                 for(Contact c : contactData){
-                    writer.write(c.getId() + "," + c.getName() + "," + c.getNotes());
+                    writer.write("ContactID: " + c.getId() + "," + c.getName() + "," + c.getNotes());
                     writer.newLine();
                 }
 
                 for(Meeting m : meetingData){
                     String meetingContactsByID = "";
-                    for(Contact c : contactData){
+                    for(Contact c : m.getContacts()){
                         meetingContactsByID = meetingContactsByID + "," + c.getId();
                     }
-                    writer.write(m.getId() + "," + meetingContactsByID + "," + simpleDate.format(m.getDate().getTime()));
-                    //writer.newLine();
+                    writer.write("MeetingID: " + m.getId() + ", meetingContactIDs" + meetingContactsByID + "," + simpleDate.format(m.getDate().getTime()) + " ");
+                    writer.newLine();
                         //if date is in the past get notes
-                        if ((Calendar.getInstance().compareTo(m.getDate())<0))
+                        if ((Calendar.getInstance().compareTo(m.getDate())>0)) {
+                            writer.write(((PastMeeting) m).getNotes());
+                        }
                             //writer.newLine();
                             //writer.write(m.getNotes);
-                    writer.newLine();
+                    //writer.newLine();
                 }
             }
 
