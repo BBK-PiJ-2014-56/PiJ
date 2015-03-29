@@ -6,10 +6,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Created by James Thornton
@@ -18,23 +20,20 @@ public class DataIO {
 
     private final File contactsFile = new File("contacts.txt");
     final static Charset ENCODING = StandardCharsets.UTF_8;
+    private final SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
 
     public DataIO() throws IOException {
         System.out.println("1");
-        //this.fFilePath = fFilePath;
         if (contactsFile.isFile()) {
             System.out.println("2");
             readFile();
         } else {
             System.out.println("3");
-            //contactsFile.getParentFile().mkdirs();
-            contactsFile.createNewFile();
+            //contactsFile.createNewFile();
             readFile();
         }
-        Path path = Paths.get("contacts.txt");
-        //DataIO parser = new DataIO();
-        //parser.processLineByLine();
-        log("Done.");
+//        Path path = Paths.get("contacts.txt");
+//        log("Done.");
     }
 
     public void readFile() {
@@ -43,7 +42,7 @@ public class DataIO {
         String fileName = "contacts.txt";
 
         // This will reference one line at a time
-        String line = null;
+        String line;
 
         try {
             // FileReader reads text files in the default encoding.
@@ -97,13 +96,13 @@ public class DataIO {
 
 
     /** Template method that calls {@link #processLine(String)}.  */
-    public final void processLineByLine() throws IOException {
-        try (Scanner scanner =  new Scanner(contactsFile, ENCODING.name())){
-            while (scanner.hasNextLine()){
-                processLine(scanner.nextLine());
-            }
-        }
-    }
+//    public final void processLineByLine() throws IOException {
+//        try (Scanner scanner =  new Scanner(contactsFile, ENCODING.name())){
+//            while (scanner.hasNextLine()){
+//                processLine(scanner.nextLine());
+//            }
+//        }
+//    }
 
     /**
      Overridable method for processing lines in different ways.
@@ -115,20 +114,20 @@ public class DataIO {
      <tt>disposition =  "grumpy"</tt>
      <tt>this is the name = this is the value</tt>
      */
-    protected void processLine(String aLine){
-        //use a second Scanner to parse the content of each line
-        Scanner scanner = new Scanner(aLine);
-        scanner.useDelimiter("=");
-        if (scanner.hasNext()){
-            //assumes the line has a certain structure
-            String name = scanner.next();
-            String value = scanner.next();
-            log("Name is : " + quote(name.trim()) + ", and Value is : " + quote(value.trim()));
-        }
-        else {
-            log("Empty or invalid line. Unable to process.");
-        }
-    }
+//    protected void processLine(String aLine){
+//        //use a second Scanner to parse the content of each line
+//        Scanner scanner = new Scanner(aLine);
+//        scanner.useDelimiter("=");
+//        if (scanner.hasNext()){
+//            //assumes the line has a certain structure
+//            String name = scanner.next();
+//            String value = scanner.next();
+//            log("Name is : " + quote(name.trim()) + ", and Value is : " + quote(value.trim()));
+//        }
+//        else {
+//            log("Empty or invalid line. Unable to process.");
+//        }
+//    }
 
     public void writeFile(Set<Contact> contactData, List<Meeting> meetingData) {
         Path path = Paths.get("contacts.txt");
@@ -138,10 +137,17 @@ public class DataIO {
                     writer.write(c.getId() + "," + c.getName() + "," + c.getNotes());
                     writer.newLine();
                 }
+
                 for(Meeting m : meetingData){
-                    writer.write(m.getId() + "," + m.getContacts() + "," + m.getDate());
+                    String meetingContactsByID = "";
+                    for(Contact c : contactData){
+                        meetingContactsByID = meetingContactsByID + "," + c.getId();
+                    }
+                    writer.write(m.getId() + "," + meetingContactsByID + "," + simpleDate.format(m.getDate().getTime()));
+                    //writer.newLine();
                         //if date is in the past get notes
                         if ((Calendar.getInstance().compareTo(m.getDate())<0))
+                            //writer.newLine();
                             //writer.write(m.getNotes);
                     writer.newLine();
                 }
@@ -151,6 +157,8 @@ public class DataIO {
             e.printStackTrace();
         }
     }
+
+
 
     // PRIVATE
     //private final Path fFilePath;

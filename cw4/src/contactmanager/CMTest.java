@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -185,6 +188,9 @@ public class CMTest {
         assertEquals(futureMeetingDate, cm.getMeetingList().get(3).getDate());
         assertEquals(futureMeetingDate2, cm.getMeetingList().get(4).getDate());
 
+        SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
+
+        System.out.println(simpleDate.format(cm.getMeetingList().get(0).getDate().getTime()));
 //        assertEquals(pastMeetingDate, cm.getPastMeeting(0).getDate());
 //        assertEquals(pastMeetingDate, cm.getPastMeeting(1).getDate());
 //        assertEquals(pastMeetingDate2, cm.getPastMeeting(2).getDate());
@@ -210,6 +216,7 @@ public class CMTest {
         meetings.add(pub);
         meetings.add(home);
         meetings.add(skiing);
+        //cm.addMeetingNotes(0, "a good beer");
 
         System.out.println("test 2.5");
 
@@ -221,11 +228,13 @@ public class CMTest {
         testdata.writeFile(contacts, meetings);
         System.out.println("test 4");
         String firstline = null;
-        try (Scanner fileReader = new Scanner("contacts.txt")) {
-            firstline = fileReader.nextLine();
-        }
-
-        assertEquals("James", firstline);
+//        Path path = Paths.get("contacts.txt");
+//        try (Scanner scanner = new Scanner(path, String.valueOf(ENCODING))){
+//        try (Scanner fileReader = new Scanner("contacts.txt")) {
+//            firstline = fileReader.nextLine();
+//        }
+//
+//        assertEquals("James", firstline);
 
     }
 }
