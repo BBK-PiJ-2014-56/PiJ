@@ -1,5 +1,6 @@
 package contactmanager;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -132,5 +133,5 @@ public interface ContactManager {
      * This method must be executed when the program is
      * closed and when/if the user requests it.
      */
-    void flush();
+    void flush() throws IOException;
 }

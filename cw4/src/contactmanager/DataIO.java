@@ -22,17 +22,21 @@ public class DataIO {
     private final File contactsFile = new File("contacts.txt");
     final static Charset ENCODING = StandardCharsets.UTF_8;
 
-    public DataIO(Path fFilePath) throws IOException {
-        this.fFilePath = fFilePath;
+    public DataIO() throws IOException {
+        System.out.println("1");
+        //this.fFilePath = fFilePath;
         if (contactsFile.isFile()) {
+            System.out.println("2");
             readFile();
         } else {
-            contactsFile.getParentFile().mkdirs();
+            System.out.println("3");
+            //contactsFile.getParentFile().mkdirs();
             contactsFile.createNewFile();
+            readFile();
         }
         Path path = Paths.get("contacts.txt");
-        DataIO parser = new DataIO("contacts.txt");
-        parser.processLineByLine();
+        //DataIO parser = new DataIO();
+        //parser.processLineByLine();
         log("Done.");
     }
 
@@ -52,14 +56,14 @@ public class DataIO {
      Constructor.
      @param aFileName full name of an existing, readable file.
      */
-    public DataIO(String aFileName){
-        fFilePath = Paths.get(aFileName);
-    }
+//    public DataIO(String aFileName){
+//        fFilePath = Paths.get(aFileName);
+//    }
 
 
     /** Template method that calls {@link #processLine(String)}.  */
     public final void processLineByLine() throws IOException {
-        try (Scanner scanner =  new Scanner(fFilePath, ENCODING.name())){
+        try (Scanner scanner =  new Scanner("contacts.txt", ENCODING.name())){
             while (scanner.hasNextLine()){
                 processLine(scanner.nextLine());
             }
@@ -114,7 +118,7 @@ public class DataIO {
     }
 
     // PRIVATE
-    private final Path fFilePath;
+    //private final Path fFilePath;
     //private final static Charset ENCODING = StandardCharsets.UTF_8;
 
     private static void log(Object aObject){

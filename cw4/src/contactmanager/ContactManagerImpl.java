@@ -1,5 +1,6 @@
 package contactmanager;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -22,7 +23,7 @@ public class ContactManagerImpl implements ContactManager {
         Meeting fm = new MeetingImpl(meetingNo, date, contacts);
         meetings.add(fm);
         meetingNo++;
-        System.out.println(meetings.get(0));
+        //System.out.println(meetings.get(0));
         return meetingNo;
     }
 
@@ -89,13 +90,13 @@ public class ContactManagerImpl implements ContactManager {
         //Iterator meetingIterator = allfutureMeetings.iterator();
         Iterator meetingIterator = meetings.iterator();
         Meeting currentMeeting;
-        System.out.println("start");
+        //System.out.println("start");
         while(meetingIterator.hasNext()) {
             currentMeeting = (Meeting) meetingIterator.next();
 
             //date is today or in the future
             if ((currentMeeting.getDate().compareTo(Calendar.getInstance())>=0)) {
-                System.out.println(currentMeeting.getDate());
+                //System.out.println(currentMeeting.getDate());
                 //currentMeeting = (FutureMeeting) meetingIterator.next();
                 Contact currentContact;
                 Iterator contactIterator = currentMeeting.getContacts().iterator();
@@ -117,7 +118,7 @@ public class ContactManagerImpl implements ContactManager {
         //Iterator meetingIterator = allfutureMeetings.iterator();
         Iterator meetingIterator = meetings.iterator();
         Meeting currentMeeting;
-        System.out.println("start of futureMeeting by date");
+        //System.out.println("start of futureMeeting by date");
         listSorter();
         while(meetingIterator.hasNext()) {
             currentMeeting = (Meeting) meetingIterator.next();
@@ -135,7 +136,7 @@ public class ContactManagerImpl implements ContactManager {
         //Iterator meetingIterator = allfutureMeetings.iterator();
         Iterator meetingIterator = meetings.iterator();
         PastMeeting currentMeeting;
-        System.out.println("startPast");
+        //System.out.println("startPast");
         while(meetingIterator.hasNext()) {
             currentMeeting = (PastMeeting) meetingIterator.next();
             Contact currentContact;
@@ -203,8 +204,8 @@ public class ContactManagerImpl implements ContactManager {
     }
 
     @Override
-    public void flush() {
-        DataIO writer = new DataIO("contacts.txt");
+    public void flush() throws IOException {
+        DataIO writer = new DataIO();
         writer.writeFile(contacts, meetings);
     }
     /*
@@ -235,7 +236,7 @@ public class ContactManagerImpl implements ContactManager {
 */
     public List<Meeting> listSorter () {
         for (Meeting meeting : meetings) {
-            System.out.println(meeting.getId());
+            //System.out.println(meeting.getId());
         }
 
         //List<Meeting> sortedMeetings = new LinkedList<>();
@@ -265,7 +266,7 @@ public class ContactManagerImpl implements ContactManager {
         List<Meeting> sortedPastMeetings = new LinkedList<>();
         List<Meeting> sortedFutureMeetings = new LinkedList<>();
         for (Meeting meeting : meetings) {
-            System.out.println(meeting.getId());
+            //System.out.println(meeting.getId());
             //System.out.println(meetings.get(i).getDate().compareTo(Calendar.getInstance()));
             //if date is in the past
             if (meeting.getDate().compareTo(Calendar.getInstance()) < 0) {

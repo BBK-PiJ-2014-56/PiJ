@@ -3,6 +3,7 @@ package contactmanager;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -81,7 +82,6 @@ public class CMTest {
         cm.addFutureMeeting(pubContacts, futureMeetingDate); // , "");
         cm.addFutureMeeting(homeContacts, futureMeetingDate); //, "hung out");
         cm.addFutureMeeting(skiingContacts, futureMeetingDate); //, "went boarding");
-        //System.out.println("id is "+cm.getFutureMeeting(2).getId());
         assertEquals(skiingContacts, cm.getFutureMeeting(2).getContacts());
     }
 
@@ -90,7 +90,6 @@ public class CMTest {
         cm.addNewPastMeeting(pubContacts, pastMeetingDate, "");
         cm.addFutureMeeting(homeContacts, futureMeetingDate); //, "hung out");
         cm.addFutureMeeting(skiingContacts, futureMeetingDate); //, "went boarding");
-        //System.out.println("id is "+cm.getFutureMeeting(2).getId());
         assertEquals(pubContacts, cm.getMeeting(0).getContacts());
         assertEquals(homeContacts, cm.getMeeting(1).getContacts());
         assertEquals(skiingContacts, cm.getMeeting(2).getContacts());
@@ -98,12 +97,10 @@ public class CMTest {
 
     @Test
     public void testGetFutureMeetingList() {
-        System.out.println("Start");
         cm.addNewPastMeeting(pubContacts, pastMeetingDate, "happened in the past");
         cm.addFutureMeeting(pubContacts, futureMeetingDate);
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
         cm.addFutureMeeting(skiingContacts, futureMeetingDate);
-        System.out.println("id is "+cm.getFutureMeeting(2).getId());
         assertEquals(3, cm.getFutureMeetingList(James).size());
         assertEquals(3, cm.getFutureMeetingList(futureMeetingDate).size());
 
@@ -197,8 +194,11 @@ public class CMTest {
     }
 
     @Test
-    public void testFlush() {
-        DataIO testdata = new DataIO("contacts.txt");
+    public void testFlush() throws IOException {
+        System.out.println("test start");
+        DataIO testdata = new DataIO();
+
+        System.out.println("test2");
 
         Set<Contact> contacts = new HashSet<>();
         contacts.add(James);
@@ -211,7 +211,15 @@ public class CMTest {
         meetings.add(home);
         meetings.add(skiing);
 
+        System.out.println("test 2.5");
+
+
+        testdata.readFile();
+
+        System.out.println("test 3");
+
         testdata.writeFile(contacts, meetings);
+        System.out.println("test 4");
         String firstline = null;
         try (Scanner fileReader = new Scanner("contacts.txt")) {
             firstline = fileReader.nextLine();
