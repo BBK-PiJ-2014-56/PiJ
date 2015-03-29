@@ -204,8 +204,8 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public void flush() {
-        DataIO writer = new DataIO("contacts.txt");
-        writer.writeFile(contacts, meetings);
+        DataIO writer = new DataIO();
+        //writer.writeFile(contacts, meetings);
     }
     /*
     private List<Meeting> pastchecker(List<Meeting> meetings) {
