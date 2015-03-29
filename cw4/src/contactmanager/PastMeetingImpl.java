@@ -6,17 +6,12 @@ import java.util.Set;
 /**
  * Created by jimjohn_thornton on 07/03/15.
  */
-public class PastMeetingImpl implements PastMeeting {
+public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 
-    private int id;
-    private Set<Contact> contacts;
-    private Calendar calendar;
     private String notes;
 
     public PastMeetingImpl(int id, Calendar calendar, Set<Contact> contacts, String notes) {
-        this.id = id;
-        this.contacts = contacts;
-        this.calendar = calendar;
+        super(id, calendar, contacts);
         this.notes = notes;
     }
 
@@ -25,22 +20,10 @@ public class PastMeetingImpl implements PastMeeting {
         return notes;
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public Calendar getDate() {
-        return calendar;
-    }
-
-    @Override
-    public Set<Contact> getContacts() {
-        return contacts;
-    }
-
     public void addNotes(String note){
-        this.notes = notes + note;
+        if (notes.length()==0)
+            notes = note;
+        else
+            this.notes = notes + ", " + note;
     }
 }

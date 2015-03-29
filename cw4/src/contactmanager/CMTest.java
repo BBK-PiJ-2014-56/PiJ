@@ -225,6 +225,7 @@ public class CMTest {
 
         System.out.println("test 3");
 
+
         testdata.writeFile(contacts, meetings);
         System.out.println("test 4");
         String firstline = null;
