@@ -1,9 +1,6 @@
 package contactmanager;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -41,13 +38,51 @@ public class DataIO {
     }
 
     public void readFile() {
-        try (Scanner fileReader = new Scanner(contactsFile)) {
-            while (fileReader.hasNextLine()) {
-                //Readline
+
+        // The name of the file to open.
+        String fileName = "contacts.txt";
+
+        // This will reference one line at a time
+        String line = null;
+
+        try {
+            // FileReader reads text files in the default encoding.
+            FileReader fileReader =
+                    new FileReader(fileName);
+
+            // Always wrap FileReader in BufferedReader.
+            BufferedReader bufferedReader =
+                    new BufferedReader(fileReader);
+
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
+            // Always close files.
+            bufferedReader.close();
         }
+        catch(FileNotFoundException ex) {
+            System.out.println(
+                    "Unable to open file '" +
+                            fileName + "'");
+        }
+        catch(IOException ex) {
+            System.out.println(
+                    "Error reading file '"
+                            + fileName + "'");
+            // Or we could just do this:
+            // ex.printStackTrace();
+        }
+
+
+//        try (Scanner fileReader = new Scanner(contactsFile)) {
+//            while (fileReader.hasNextLine()) {
+//                //Readline
+//                processLine(fileReader.nextLine());
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -63,7 +98,7 @@ public class DataIO {
 
     /** Template method that calls {@link #processLine(String)}.  */
     public final void processLineByLine() throws IOException {
-        try (Scanner scanner =  new Scanner("contacts.txt", ENCODING.name())){
+        try (Scanner scanner =  new Scanner(contactsFile, ENCODING.name())){
             while (scanner.hasNextLine()){
                 processLine(scanner.nextLine());
             }
