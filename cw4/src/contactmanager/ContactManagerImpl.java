@@ -205,7 +205,9 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public void flush() throws IOException {
-        listSorter();
+        //might need to delete contents of contacts.txt
+
+        //listSorter();
         DataIO writer = new DataIO();
         writer.writeFile(contacts, meetings);
     }

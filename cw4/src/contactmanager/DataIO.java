@@ -1,6 +1,7 @@
 package contactmanager;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -55,6 +56,10 @@ public class DataIO {
 
             while((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
+                if (line.startsWith("Contact"))
+                    contactadder(line);
+                if (line.startsWith("Meeting"))
+                    meetingadder(line);
             }
 
             // Always close files.
@@ -83,6 +88,24 @@ public class DataIO {
 //            e.printStackTrace();
 //        }
 
+    }
+
+    private void meetingadder(String line) {
+        String[] stringArray = line.split(",");
+        int ID = Integer.parseInt(stringArray[1]);
+        for (String s : stringArray){
+
+        }
+    }
+
+    private void contactadder(String line) {
+        //split line into parts
+        String[] stringArray = line.split(",");
+        //each part of the array gets added to a new contact
+        int ID = Integer.parseInt(stringArray[1]);
+        String name = stringArray[2];
+        String notes = stringArray[3];
+        Contact newContact = new ContactImpl(ID, name, notes);
     }
 
 
@@ -134,21 +157,21 @@ public class DataIO {
         try (Scanner scanner = new Scanner(path, String.valueOf(ENCODING))){
             try (BufferedWriter writer = Files.newBufferedWriter(path, ENCODING)){
                 for(Contact c : contactData){
-                    writer.write("ContactID: " + c.getId() + "," + c.getName() + "," + c.getNotes());
+                    writer.write("Contact," + c.getId() + "," + c.getName() + "," + c.getNotes());
                     writer.newLine();
                 }
 
                 for(Meeting m : meetingData){
                     String meetingContactsByID = "";
                     for(Contact c : m.getContacts()){
-                        meetingContactsByID = meetingContactsByID + "," + c.getId();
+                        meetingContactsByID = meetingContactsByID + ";" + c.getId();
                     }
                     if (m instanceof FutureMeeting) {
-                        writer.write("MeetingID: " + m.getId() + ", meetingContactIDs" + meetingContactsByID  + ", " + simpleDate.format(m.getDate().getTime()) + System.getProperty("line.separator"));
+                        writer.write("Meeting," + m.getId() + ",meetingContactIDs" + meetingContactsByID  + "," + simpleDate.format(m.getDate().getTime()) + System.getProperty("line.separator"));
                     }
                     // If meeting is a Past Meeting write with notes
                     else if (m instanceof PastMeeting) {
-                        writer.write("MeetingID: " + m.getId() + ", meetingContactIDs" + meetingContactsByID  + ", " + simpleDate.format(m.getDate().getTime()) + ", " + ((PastMeeting) m).getNotes() + System.getProperty("line.separator"));
+                        writer.write("Meeting," + m.getId() + ",meetingContactIDs" + meetingContactsByID  + "," + simpleDate.format(m.getDate().getTime()) + ", " + ((PastMeeting) m).getNotes() + System.getProperty("line.separator"));
                     }
 
                         //if date is in the past get notes

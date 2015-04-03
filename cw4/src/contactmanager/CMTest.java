@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -224,7 +226,7 @@ public class CMTest {
         //cm.listSorter();
 
 
-        testdata.readFile();
+        //testdata.readFile();
 
         System.out.println("test 3");
 
@@ -232,13 +234,14 @@ public class CMTest {
         testdata.writeFile(contacts, meetings);
         System.out.println("test 4");
         String firstline = null;
-//        Path path = Paths.get("contacts.txt");
-//        try (Scanner scanner = new Scanner(path, String.valueOf(ENCODING))){
-//        try (Scanner fileReader = new Scanner("contacts.txt")) {
-//            firstline = fileReader.nextLine();
-//        }
-//
-//        assertEquals("James", firstline);
+        Path path = Paths.get("contacts.txt");
+        Charset ENCODING = StandardCharsets.UTF_8;
+        try (Scanner fileReader = new Scanner(path, String.valueOf(ENCODING))){
+        //try (Scanner fileReader = new Scanner("contacts.txt")) {
+            firstline = fileReader.nextLine();
+        }
+
+        assertEquals("Contact,3,Jess,is a cat", firstline);
 
     }
 }
