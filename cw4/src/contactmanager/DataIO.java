@@ -137,10 +137,10 @@ public class DataIO {
                     }
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }
 

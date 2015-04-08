@@ -41,6 +41,7 @@ public class CMTest {
     public void setUp() throws Exception {
 
         cm = new ContactManagerImpl();
+        cm.fileEraser();
 
         James = new ContactImpl(0, "James", "is the first contact");
         Julie = new ContactImpl(1, "Julie", "is the second contact");
@@ -69,7 +70,8 @@ public class CMTest {
 
     }
     @Test
-    public void testAddFutureMeeting() {
+    public void testAddFutureMeeting() throws IOException {
+        //cm.fileEraser();
         //assertEquals(null, cm.getFutureMeetingList(James));
         cm.addFutureMeeting(homeContacts, futureMeetingDate);
         assertEquals(homeContacts, cm.getMeeting(0).getContacts());
@@ -145,7 +147,8 @@ public class CMTest {
     }
 
     @Test
-    public void testAddMeetingNotes() {
+    public void testAddMeetingNotes() throws IOException {
+        cm.fileEraser();
         cm.addNewPastMeeting(pubContacts, pastMeetingDate, "");
         cm.addMeetingNotes(0, "a good beer");
         assertEquals("a good beer", cm.getPastMeeting(0).getNotes());
@@ -258,12 +261,13 @@ public class CMTest {
         cm3.addNewContact("Suzy", "Number 2");
         cm3.addNewContact("Annie", "Number 3");
         cm3.addFutureMeeting(cm3.getContacts(0, 1, 2), futureMeetingDate);
+        cm3.addNewPastMeeting(cm3.getContacts(1, 2), pastMeetingDate, "already happened");
         //writes file
         cm3.flush();
         //new contact manager that reads the file just written
         ContactManagerImpl cm4 = new ContactManagerImpl();
         Set<Contact> contactSet = cm4.getContacts(0, 1, 2);
-        System.out.println(contactSet.size());
+
         List<Meeting> meetingList = cm4.getMeetingList();
         System.out.println(meetingList.size());
 
