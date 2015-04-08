@@ -1,18 +1,14 @@
 package contactmanager;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.function.Consumer;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by James Thornton
@@ -21,81 +17,90 @@ public class DataIO {
 
     private final File contactsFile = new File("contacts.txt");
     final static Charset ENCODING = StandardCharsets.UTF_8;
-    private final SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
+    private final SimpleDateFormat simpleDate = new SimpleDateFormat("dd-MM-yyyy");
+    private Set<Contact> contacts = new HashSet<>();
+    private List<Meeting> meetings = new LinkedList<>();
+    private ArrayList<Object> contactsAndTheirMeetings = new ArrayList();
 
     public DataIO() throws IOException {
-        System.out.println("1");
-        if (contactsFile.isFile()) {
-            System.out.println("2");
-            readFile();
-        } else {
-            System.out.println("3");
-            //contactsFile.createNewFile();
-            readFile();
-        }
-//        Path path = Paths.get("contacts.txt");
-//        log("Done.");
+        if (!contactsFile.isFile())
+            contactsFile.createNewFile();
     }
 
-    public void readFile() {
+    public ArrayList<Object>  readFile() {
 
         // The name of the file to open.
         String fileName = "contacts.txt";
 
         // This will reference one line at a time
         String line;
+        String line2;
 
         try {
+            //reads file twice the first time adding contacts the second adding meetings
             // FileReader reads text files in the default encoding.
-            FileReader fileReader =
-                    new FileReader(fileName);
+            FileReader fileReader = new FileReader(fileName);
 
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader =
-                    new BufferedReader(fileReader);
+            // Wrap FileReader in BufferedReader.
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
                 if (line.startsWith("Contact"))
                     contactadder(line);
-                if (line.startsWith("Meeting"))
-                    meetingadder(line);
+            }
+            bufferedReader.close();
+
+            FileReader fileReader2 = new FileReader(fileName);
+            BufferedReader bufferedReader2 = new BufferedReader(fileReader2);
+
+            while((line2 = bufferedReader2.readLine()) != null) {
+                if (line2 != null) {
+                    if (line2.startsWith("Meeting")) {
+                        meetingadder(line2);
+                    }
+                }
             }
 
-            // Always close files.
-            bufferedReader.close();
+            contactsAndTheirMeetings.add(contacts);
+            contactsAndTheirMeetings.add(meetings);
+            bufferedReader2.close();
         }
         catch(FileNotFoundException ex) {
-            System.out.println(
-                    "Unable to open file '" +
-                            fileName + "'");
+            System.out.println("Unable to open file '" + fileName + "'");
         }
         catch(IOException ex) {
-            System.out.println(
-                    "Error reading file '"
-                            + fileName + "'");
-            // Or we could just do this:
-            // ex.printStackTrace();
+            System.out.println("Error reading file '" + fileName + "'");
         }
+        return contactsAndTheirMeetings;
 
-
-//        try (Scanner fileReader = new Scanner(contactsFile)) {
-//            while (fileReader.hasNextLine()) {
-//                //Readline
-//                processLine(fileReader.nextLine());
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
 
     }
 
     private void meetingadder(String line) {
-        String[] stringArray = line.split(",");
-        int ID = Integer.parseInt(stringArray[1]);
-        for (String s : stringArray){
 
+        //splits the Meeting line into an array
+        String[] stringArray = line.split(",");
+        //Sets the Id of the meeting
+        int ID = Integer.parseInt(stringArray[1]);
+        //splits a list of contact ID's
+        String[] contactArray = stringArray[2].split(";");
+        Set<Contact> meetingContacts = new HashSet<>();
+        //iterates through contacts adding them as they are found to another list
+        for (int i = 1; i < contactArray.length; i++) {
+            int contactID = Integer.parseInt(contactArray[i]);
+            meetingContacts.addAll(contacts
+                    .stream()
+                    .filter(inContactList -> inContactList.getId() == contactID)
+                    .collect(Collectors.toList()));
         }
+        //Adds date
+        String[] splitDate = stringArray[3].split("-");
+        int day = Integer.parseInt(splitDate[0]);
+        int month = Integer.parseInt(splitDate[1]);
+        int year = Integer.parseInt(splitDate[2]);
+        Calendar date = new GregorianCalendar(day, month, year);
+        Meeting newMeeting = new MeetingImpl(ID, date, meetingContacts);
+        meetings.add(newMeeting);
     }
 
     private void contactadder(String line) {
@@ -106,51 +111,8 @@ public class DataIO {
         String name = stringArray[2];
         String notes = stringArray[3];
         Contact newContact = new ContactImpl(ID, name, notes);
+        contacts.add(newContact);
     }
-
-
-    /**
-     Constructor.
-     @param aFileName full name of an existing, readable file.
-     */
-//    public DataIO(String aFileName){
-//        fFilePath = Paths.get(aFileName);
-//    }
-
-
-    /** Template method that calls {@link #processLine(String)}.  */
-//    public final void processLineByLine() throws IOException {
-//        try (Scanner scanner =  new Scanner(contactsFile, ENCODING.name())){
-//            while (scanner.hasNextLine()){
-//                processLine(scanner.nextLine());
-//            }
-//        }
-//    }
-
-    /**
-     Overridable method for processing lines in different ways.
-
-     <P>This simple default implementation expects simple name-value pairs, separated by an
-     '=' sign. Examples of valid input:
-     <tt>height = 167cm</tt>
-     <tt>mass =  65kg</tt>
-     <tt>disposition =  "grumpy"</tt>
-     <tt>this is the name = this is the value</tt>
-     */
-//    protected void processLine(String aLine){
-//        //use a second Scanner to parse the content of each line
-//        Scanner scanner = new Scanner(aLine);
-//        scanner.useDelimiter("=");
-//        if (scanner.hasNext()){
-//            //assumes the line has a certain structure
-//            String name = scanner.next();
-//            String value = scanner.next();
-//            log("Name is : " + quote(name.trim()) + ", and Value is : " + quote(value.trim()));
-//        }
-//        else {
-//            log("Empty or invalid line. Unable to process.");
-//        }
-//    }
 
     public void writeFile(Set<Contact> contactData, List<Meeting> meetingData) {
         Path path = Paths.get("contacts.txt");
@@ -173,37 +135,12 @@ public class DataIO {
                     else if (m instanceof PastMeeting) {
                         writer.write("Meeting," + m.getId() + ",meetingContactIDs" + meetingContactsByID  + "," + simpleDate.format(m.getDate().getTime()) + ", " + ((PastMeeting) m).getNotes() + System.getProperty("line.separator"));
                     }
-
-                        //if date is in the past get notes
-//                        if ((Calendar.getInstance().compareTo(m.getDate())>0)) {
-//                            PastMeeting pm = new PastMeeting ;
-//                            writer.write((pm).getNotes());
-//                        }
-                            //writer.newLine();
-                            //writer.write(m.getNotes);
-                    //writer.newLine();
-
                 }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-
-    // PRIVATE
-    //private final Path fFilePath;
-    //private final static Charset ENCODING = StandardCharsets.UTF_8;
-
-    private static void log(Object aObject){
-        System.out.println(String.valueOf(aObject));
-    }
-
-    private String quote(String aText){
-        String QUOTE = "'";
-        return QUOTE + aText + QUOTE;
     }
 }
 

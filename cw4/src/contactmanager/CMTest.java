@@ -3,12 +3,13 @@ package contactmanager;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -39,6 +40,8 @@ public class CMTest {
     @Before
     public void setUp() throws Exception {
 
+        cm = new ContactManagerImpl();
+
         James = new ContactImpl(0, "James", "is the first contact");
         Julie = new ContactImpl(1, "Julie", "is the second contact");
         John = new ContactImpl(2, "John", "is the third contact");
@@ -61,7 +64,8 @@ public class CMTest {
         pub = new PastMeetingImpl(0, pastMeetingDate, pubContacts, "");
         skiing = new PastMeetingImpl(1, pastMeetingDate, skiingContacts, "Awesome holiday!");
         home = new FutureMeetingImpl(2, futureMeetingDate, homeContacts);
-        cm = new ContactManagerImpl();
+
+        //cm.flush();
 
     }
     @Test
@@ -87,7 +91,7 @@ public class CMTest {
         cm.addFutureMeeting(pubContacts, futureMeetingDate); // , "");
         cm.addFutureMeeting(homeContacts, futureMeetingDate); //, "hung out");
         cm.addFutureMeeting(skiingContacts, futureMeetingDate); //, "went boarding");
-        assertEquals(skiingContacts, cm.getFutureMeeting(2).getContacts());
+        assertEquals(2, cm.getFutureMeeting(2).getId());
     }
 
     @Test
@@ -158,19 +162,17 @@ public class CMTest {
     }
 
     @Test
-    public void testGetContacts() {
-        cm.addNewContact("James", "");
-        cm.addNewContact("Julie", "");
-        cm.addNewContact("John", "");
-        cm.addNewContact("Jess", "");
-        cm.addNewContact("James", "");
-        cm.addNewContact("James2", "");
-        assertEquals(2, cm.getContacts("James").size());
-        assertEquals(3, cm.getContacts(0, 2, 3).size());
-//        for(int i;i in .. cm.getContacts(0, 1, 2, 3)){
-//            System.out.println(cm.getContacts(i).iterator().next().getName());
-//        }
-
+    public void testGetContacts() throws IOException {
+        cm.fileEraser();
+        ContactManagerImpl cm2 = new ContactManagerImpl();
+        cm2.addNewContact("James", "");
+        cm2.addNewContact("Julie", "");
+        cm2.addNewContact("John", "");
+        cm2.addNewContact("Jess", "");
+        cm2.addNewContact("James", "");
+        cm2.addNewContact("James2", "");
+        assertEquals(2, cm2.getContacts("James").size());
+        assertEquals(3, cm2.getContacts(0, 2, 3).size());
     }
 
     @Test
@@ -184,6 +186,7 @@ public class CMTest {
         cm.addNewPastMeeting(skiingContacts, pastMeetingDate, "meetingdate1");
 
         cm.listSorter();
+
 //        assertEquals(pastMeetingDate, cm.getMeetingList().get(0).getDate());
 //        assertEquals(pastMeetingDate, cm.getMeetingList().get(1).getDate());
 //        assertEquals(pastMeetingDate2, cm.getMeetingList().get(2).getDate());
@@ -193,9 +196,9 @@ public class CMTest {
 //        SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
 //
 //        System.out.println(simpleDate.format(cm.getMeetingList().get(0).getDate().getTime()));
-
-
-
+//
+//
+//
 //        assertEquals(pastMeetingDate, cm.getPastMeeting(0).getDate());
 //        assertEquals(pastMeetingDate, cm.getPastMeeting(1).getDate());
 //        assertEquals(pastMeetingDate2, cm.getPastMeeting(2).getDate());
@@ -206,10 +209,8 @@ public class CMTest {
 
     @Test
     public void testFlush() throws IOException {
-        System.out.println("test start");
-        DataIO testdata = new DataIO();
 
-        System.out.println("test2");
+        DataIO testdata = new DataIO();
 
         Set<Contact> contacts = new HashSet<>();
         contacts.add(James);
@@ -222,26 +223,66 @@ public class CMTest {
         meetings.add(home);
         meetings.add(skiing);
 
-        System.out.println("test 2.5");
-        //cm.listSorter();
-
-
-        //testdata.readFile();
-
-        System.out.println("test 3");
-
-
         testdata.writeFile(contacts, meetings);
-        System.out.println("test 4");
-        String firstline = null;
+        String firstline;
         Path path = Paths.get("contacts.txt");
         Charset ENCODING = StandardCharsets.UTF_8;
+
         try (Scanner fileReader = new Scanner(path, String.valueOf(ENCODING))){
-        //try (Scanner fileReader = new Scanner("contacts.txt")) {
             firstline = fileReader.nextLine();
         }
 
-        assertEquals("Contact,3,Jess,is a cat", firstline);
+        assertEquals("Contact", firstline.substring(0,7));
 
     }
+    @Test
+    public void testEraser() throws IOException {
+        cm.fileEraser();
+        String firstLine = null;
+        Path path = Paths.get("contacts.txt");
+        Charset ENCODING = StandardCharsets.UTF_8;
+        try (Scanner fileReader = new Scanner(path, String.valueOf(ENCODING))){
+            firstLine = fileReader.nextLine();
+        } catch (NoSuchElementException e) {
+            //e.printStackTrace();
+        }
+        assertEquals(null, firstLine);
+    }
+    @Test
+    public void meetingReadAndWriteTest() throws IOException {
+        //erases file
+        cm.fileEraser();
+        //sets up new Contact manager with 3 contacts and 1 meeting
+        ContactManagerImpl cm3 = new ContactManagerImpl();
+        cm3.addNewContact("James", "Number 1");
+        cm3.addNewContact("Suzy", "Number 2");
+        cm3.addNewContact("Annie", "Number 3");
+        cm3.addFutureMeeting(cm3.getContacts(0, 1, 2), futureMeetingDate);
+        //writes file
+        cm3.flush();
+        //new contact manager that reads the file just written
+        ContactManagerImpl cm4 = new ContactManagerImpl();
+        Set<Contact> contactSet = cm4.getContacts(0, 1, 2);
+        System.out.println(contactSet.size());
+        List<Meeting> meetingList = cm4.getMeetingList();
+        System.out.println(meetingList.size());
+
+        // FileReader reads text files in the default encoding.
+        FileReader fileReader = new FileReader("contacts.txt");
+
+        // Wrap FileReader in BufferedReader.
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        String firstLine = null;
+        //File contactsFile = new File("contacts.txt");
+        Path path = Paths.get("contacts.txt");
+        //contactsFile.createNewFile();
+        Charset ENCODING = StandardCharsets.UTF_8;
+        String line;
+        while((line = bufferedReader.readLine()) != null) {
+            System.out.println(line);
+        }
+        bufferedReader.close();
+    }
+
 }
