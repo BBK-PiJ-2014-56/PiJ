@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class setUpClientImpl implements setUpClient {
     @Override
-    public int createQuiz(String quizName, List<Question> questions, List<Answer> answers) {
+    public int createQuiz(String quizName, List<QuestionAndAnswer> questionAndAnswers, List<Answer> answers) {
         return 0;
     }
 

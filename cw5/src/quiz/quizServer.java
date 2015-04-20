@@ -1,20 +1,21 @@
 package quiz;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * Created by jimjohn_thornton on 19/04/15.
  */
 public interface quizServer extends Remote {
 
-    void addQuiz();
+    void addQuiz() throws RemoteException;
 
-    void getQuiz();
+    void getQuiz() throws RemoteException;
 
-    void addQuestion();
+    void addQuestion() throws RemoteException;
 
-    void deleteQuestion();
+    void deleteQuestion() throws RemoteException;
 
-    void getHighScore();
+    void getHighScore() throws RemoteException;
 
 }
