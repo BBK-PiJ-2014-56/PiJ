@@ -1,5 +1,6 @@
 package quiz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,20 +8,25 @@ import java.util.List;
  */
 public class quizImpl implements quiz {
 
-
+    private String quizName;
+    private List<QuestionAndAnswer> questions;
+    public quizImpl (String quizName) {
+        this.quizName = quizName;
+        this.questions = new ArrayList<QuestionAndAnswer>();
+    }
 
     @Override
     public String getQuizName() {
-        return null;
+        return this.quizName;
     }
 
     @Override
     public List<QuestionAndAnswer> getQuestions() {
-        return null;
+        return this.questions;
     }
 
     @Override
-    public void addQuestion() {
-
+    public void addQuestion(String question, int x) {
+        questions.add(new QuestionAndAnswer(question, x));
     }
 }
