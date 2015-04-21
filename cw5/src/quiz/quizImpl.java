@@ -26,7 +26,7 @@ public class quizImpl implements quiz {
     }
 
     @Override
-    public void addQuestion(String question, int x) {
-        questions.add(new QuestionAndAnswer(question, x));
+    public void addQuestion(String question, String a1, String a2, String a3, String a4, int x) {
+        questions.add(new QuestionAndAnswer(question, new answerImpl(a1, a2, a3, a4, x)));
     }
 }

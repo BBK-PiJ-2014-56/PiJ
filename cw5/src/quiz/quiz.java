@@ -11,6 +11,6 @@ public interface quiz {
 
     List<QuestionAndAnswer> getQuestions();
 
-    void addQuestion(String question, int x);
+    void addQuestion(String question, String a1, String a2, String a3, String a4, int x);
 
 }
