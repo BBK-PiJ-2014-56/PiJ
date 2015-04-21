@@ -18,9 +18,9 @@ public class quizLauncherTest {
     public void setUp() {
         James = new playerImpl("James");
         quiz1 = new quizImpl("quiz1");
-        quiz1.addQuestion("what does the cat want?", "food", "petting", "water", "love");
+        quiz1.addQuestion("what does the cat want?", "food", "petting", "water", "love", 1);
     }
-
+    //Quiz tests
     @Test
     public void getQuizNameTest() {
         assertEquals("quiz1", quiz1.getQuizName());
@@ -33,7 +33,22 @@ public class quizLauncherTest {
 
     @Test
     public void addQuestionTest() {
-        quiz1.addQuestion("why does the cat eat so much?", 2);
+        quiz1.addQuestion("why does the cat eat so much?", "he's starving", "he's a fatty", "he's comfort eating", "he gets alot of exercise", 2);
+        assertEquals(2, quiz1.getQuestions().size());
     }
+    @Test
+    public void checkAnswerTest() {
+        assertEquals(true, quiz1.getQuestions().get(0).getAnswer(1));
+        assertEquals(false, quiz1.getQuestions().get(0).getAnswer(2));
+        assertEquals(false, quiz1.getQuestions().get(0).getAnswer(3));
+        assertEquals(false, quiz1.getQuestions().get(0).getAnswer(4));
+        assertEquals(false, quiz1.getQuestions().get(0).getAnswer(5));
 
+    }
+//    @Test
+//    public void UITest() {
+//        UI ui = new UI(quiz1);
+//
+//
+//    }
 }

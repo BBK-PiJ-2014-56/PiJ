@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class QuestionAndAnswer {
     private List<String> questions;
+    private List<String> allAnswers;
     private answerImpl answers;
     private int questionNumber = 0;
     private String question;
@@ -16,8 +17,18 @@ public class QuestionAndAnswer {
         this.answers = answers;
         this.questionNumber = questionNumber++;
         //maybe change this to an answer object...?
-        this.answer = answer;
+        //this.answer = answer;
 
 
+    }
+    public boolean getAnswer(int x){
+        return answers.checkAnswer(x);
+    }
+    public String getQuestion(){
+        return question;
+    }
+    public List<String> getAllAnswers() {
+        allAnswers = answers.getAllAnswers();
+        return allAnswers;
     }
 }

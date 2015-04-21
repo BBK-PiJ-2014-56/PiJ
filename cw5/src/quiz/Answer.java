@@ -1,8 +1,13 @@
 package quiz;
 
+import java.util.List;
+
 /**
  * Created by jimjohn_thornton on 19/04/15.
  */
 public interface Answer {
-    public boolean checkAnswer(int x);
+
+    //might need a questionID here
+    boolean checkAnswer(int x);
+    List<String> getAllAnswers();
 }
