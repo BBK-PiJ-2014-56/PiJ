@@ -1,9 +1,13 @@
-package quiz;
+package quiz.server;
+
+import java.io.Serializable;
 
 /**
  * Created by jimjohn_thornton on 19/04/15.
  */
-public class playerImpl implements player {
+public class playerImpl implements player, Serializable {
+
+    private static final long serialVersionUID = 3134L;
 
     private String playerName;
 

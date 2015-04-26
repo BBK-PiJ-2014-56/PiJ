@@ -1,11 +1,15 @@
-package quiz;
+package quiz.server;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by jimjohn_thornton on 19/04/15.
  */
-public class QuestionAndAnswer {
+public class QuestionAndAnswer implements Serializable {
+
+    private static final long serialVersionUID = 3135L;
+
     private List<String> questions;
     private List<String> allAnswers;
     private answerImpl answers;
@@ -30,5 +34,8 @@ public class QuestionAndAnswer {
     public List<String> getAllAnswers() {
         allAnswers = answers.getAllAnswers();
         return allAnswers;
+    }
+    public int getCorrectAnswer(){
+        return answers.getCorrectAnswer();
     }
 }

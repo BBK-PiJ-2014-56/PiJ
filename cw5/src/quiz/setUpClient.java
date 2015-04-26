@@ -1,5 +1,8 @@
 package quiz;
 
+import quiz.server.Answer;
+import quiz.server.QuestionAndAnswer;
+
 import java.util.List;
 
 /**

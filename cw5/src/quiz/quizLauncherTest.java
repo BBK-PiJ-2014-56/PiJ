@@ -2,6 +2,9 @@ package quiz;
 
 import org.junit.Before;
 import org.junit.Test;
+import quiz.server.QuestionAndAnswer;
+import quiz.server.playerImpl;
+import quiz.server.quizImpl;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,4 +1,4 @@
-package quiz;
+package quiz.server;
 
 import java.util.List;
 
@@ -12,5 +12,11 @@ public interface quiz {
     List<QuestionAndAnswer> getQuestions();
 
     void addQuestion(String question, String a1, String a2, String a3, String a4, int x);
+
+    int getHighScore();
+
+    String playerWithHighScore();
+
+    void newHighScore(String name, int score);
 
 }

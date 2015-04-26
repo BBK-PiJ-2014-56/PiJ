@@ -1,12 +1,15 @@
-package quiz;
+package quiz.server;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jimjohn_thornton on 21/04/15.
  */
-public class answerImpl implements Answer {
+public class answerImpl implements Answer, Serializable {
+
+    private static final long serialVersionUID = 3132L;
 
     private List<String> answers = new ArrayList<String>();
     private int correctAnswer;
@@ -34,5 +37,10 @@ public class answerImpl implements Answer {
     @Override
     public List<String> getAllAnswers() {
         return answers;
+    }
+
+    @Override
+    public int getCorrectAnswer() {
+        return correctAnswer;
     }
 }

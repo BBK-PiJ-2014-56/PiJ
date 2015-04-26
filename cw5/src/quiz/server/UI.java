@@ -1,11 +1,15 @@
-package quiz;
+package quiz.server;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 /**
  * Created by jimjohn_thornton on 21/04/15.
  */
-public class UI {
+public class UI implements Serializable {
+
+    private static final long serialVersionUID = 3138L;
+
     private int currentAnswerNumber = 1;
     private int currentScore = 0;
     public UI(quizImpl quiz) {
@@ -17,12 +21,14 @@ public class UI {
             }
             Scanner sc = new Scanner(System.in);
             int i = sc.nextInt();
-            if (q.getAnswer(i))
+            if (q.getAnswer(i)) {
                 System.out.println("well done");
+                currentScore++;
+            }
             else
                 System.out.println("incorrect");
             currentAnswerNumber = 1;
-            currentScore++;
+
         }
         System.out.println("you scored " + currentScore);
     }

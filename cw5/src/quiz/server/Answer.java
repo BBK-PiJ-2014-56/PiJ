@@ -1,4 +1,4 @@
-package quiz;
+package quiz.server;
 
 import java.util.List;
 
@@ -10,4 +10,5 @@ public interface Answer {
     //might need a questionID here
     boolean checkAnswer(int x);
     List<String> getAllAnswers();
+    int getCorrectAnswer();
 }
