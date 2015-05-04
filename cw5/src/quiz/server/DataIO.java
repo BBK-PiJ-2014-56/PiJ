@@ -23,15 +23,27 @@ public class DataIO {
     private int quizNo = 1;
     private int questionNo = 1;
 
+    /**
+     * checks to see if a file exists and creates one if it doesn't
+     * @throws IOException
+     */
     public DataIO() throws IOException {
         if (!QuizFile.isFile())
             QuizFile.createNewFile();
     }
 
+    /**
+     * starts the file writer
+     * @param ql a list of quizzes
+     */
     public DataIO(ArrayList<quizImpl> ql) {
         writeToFile(ql);
     }
 
+    /**
+     * reads data from the Quizzes file
+     * @return a list of quizzes
+     */
     public ArrayList<quizImpl> readFile() {
 
         // The name of the file to open.
@@ -57,12 +69,20 @@ public class DataIO {
                     //splits the line into an array of strings
                     String[] stringArray = s.split(",");
                     //If game already has a highScore
-                    if (stringArray[stringArray.length - 3].equals("highScore")) {
-                        quizImpl q = new quizImpl(stringArray[1], stringArray[stringArray.length - 2], Integer.parseInt(stringArray[stringArray.length - 1]));
-                        for (int i = 2; i < stringArray.length - 3; i = i + 6) {
-                            q.addQuestion(stringArray[i], stringArray[i + 1], stringArray[i + 2], stringArray[i + 3], stringArray[i + 4], Integer.parseInt(stringArray[i + 5]));
+                    if (stringArray.length > 3) {
+                        if (stringArray[stringArray.length - 3].equals("highScore")) {
+                            quizImpl q = new quizImpl(stringArray[1], stringArray[stringArray.length - 2], Integer.parseInt(stringArray[stringArray.length - 1]));
+                            for (int i = 2; i < stringArray.length - 3; i = i + 6) {
+                                q.addQuestion(stringArray[i], stringArray[i + 1], stringArray[i + 2], stringArray[i + 3], stringArray[i + 4], Integer.parseInt(stringArray[i + 5]));
+                            }
+                            quizArray.add(q);
+                        } else {
+                            quizImpl q = new quizImpl(stringArray[1]);
+                            for (int i = 2; i < stringArray.length; i = i + 6) {
+                                q.addQuestion(stringArray[i], stringArray[i + 1], stringArray[i + 2], stringArray[i + 3], stringArray[i + 4], Integer.parseInt(stringArray[i + 5]));
+                            }
+                            quizArray.add(q);
                         }
-                        quizArray.add(q);
                     } else {
                         quizImpl q = new quizImpl(stringArray[1]);
                         for (int i = 2; i < stringArray.length; i = i + 6) {
@@ -80,6 +100,10 @@ public class DataIO {
         return quizArray;
     }
 
+    /**
+     * saves any changes to the quiz when server is shutdown
+     * @param ql a list of quizzes
+     */
     public void writeToFile(ArrayList<quizImpl> ql) {
         Path path = Paths.get("Quizzes.txt");
         try (Scanner scanner = new Scanner(path, String.valueOf(ENCODING))) {
